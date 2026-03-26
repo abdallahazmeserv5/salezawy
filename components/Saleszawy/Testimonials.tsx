@@ -1,8 +1,15 @@
 "use client"
 
-import React from "react"
-import { motion } from "framer-motion"
+import React, { useRef, useState } from "react"
 import Image from "next/image"
+import { Container } from "@/components/ui/container"
+import gsap from "gsap"
+import { useGSAP } from "@gsap/react"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 const reviews = [
   {
@@ -26,17 +33,45 @@ const reviews = [
 ]
 
 export function Testimonials() {
-  const [active, setActive] = React.useState(0)
+  const [active, setActive] = useState(0)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const cardRef = useRef<HTMLDivElement>(null)
+  const textRef = useRef<HTMLParagraphElement>(null)
+
+  useGSAP(() => {
+    // Card Entrance
+    gsap.set(cardRef.current, { opacity: 0, scale: 0.95 })
+    gsap.to(cardRef.current, {
+      opacity: 1,
+      scale: 1,
+      duration: 0.8,
+      scrollTrigger: {
+        trigger: cardRef.current,
+        start: "top bottom-=100",
+        toggleActions: "play none none none",
+        once: true
+      }
+    })
+
+    ScrollTrigger.refresh()
+  }, { scope: containerRef })
+
+  // Animate text when active index changes
+  useGSAP(() => {
+    if (textRef.current) {
+      gsap.fromTo(textRef.current, 
+        { opacity: 0, x: 20 },
+        { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }
+      )
+    }
+  }, { dependencies: [active], scope: containerRef })
 
   return (
-    <section className="bg-sales-bg py-24 font-almarai rtl text-right relative overflow-hidden">
-      <div className="w-[90%] max-w-7xl mx-auto">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="glass-card rounded-[40px] p-12 md:p-20 relative overflow-hidden flex flex-col md:flex-row items-center gap-12 border border-white/10 bg-white/5 backdrop-blur-[30px]"
+    <section ref={containerRef} className="bg-sales-bg py-16 font-almarai rtl text-right relative overflow-hidden">
+      <Container>
+        <div 
+          ref={cardRef}
+          className="glass-card rounded-[32px] p-10 md:p-14 relative overflow-hidden flex flex-col md:flex-row items-center gap-10 border border-white/10 bg-white/5 backdrop-blur-[30px]"
         >
           {/* Big Quotation Mark */}
           <div className="absolute top-10 right-10 text-[200px] leading-none text-white/5 font-serif select-none pointer-events-none">
@@ -44,14 +79,12 @@ export function Testimonials() {
           </div>
 
           <div className="flex-1 relative z-10">
-             <motion.p 
-               key={active}
-               initial={{ opacity: 0, x: 20 }}
-               animate={{ opacity: 1, x: 0 }}
-               className="text-2xl md:text-3xl font-medium text-white leading-relaxed mb-10"
+             <p 
+               ref={textRef}
+               className="text-xl md:text-2xl font-medium text-white leading-relaxed mb-8"
              >
                {reviews[active].text}
-             </motion.p>
+             </p>
              
              <div>
                 <h4 className="text-xl font-bold text-white">{reviews[active].author}</h4>
@@ -59,12 +92,12 @@ export function Testimonials() {
              </div>
           </div>
 
-          <div className="flex flex-col gap-4 relative z-10">
+          <div className="flex flex-row md:flex-col gap-4 relative z-10 justify-center">
             {reviews.map((rev, i) => (
               <button 
                 key={i}
                 onClick={() => setActive(i)}
-                className={`w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all p-0.5 ${active === i ? 'border-sales-accent scale-110' : 'border-transparent opacity-40 hover:opacity-100'}`}
+                className={`w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden border-2 transition-all p-0.5 ${active === i ? 'border-sales-accent scale-110' : 'border-transparent opacity-40 hover:opacity-100'}`}
               >
                 <Image 
                   src={rev.avatar} 
@@ -76,8 +109,9 @@ export function Testimonials() {
               </button>
             ))}
           </div>
-        </motion.div>
-      </div>
+        </div>
+      </Container>
     </section>
   )
 }
+

@@ -1,39 +1,171 @@
 "use client"
 
-import React from "react"
-import { motion } from "framer-motion"
+import React, { useRef } from "react"
 import { Users, Clock, TrendingUp } from "lucide-react"
+import { Container } from "@/components/ui/container"
+import gsap from "gsap"
+import { useGSAP } from "@gsap/react"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 export function ExtendedFeatures() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const headerRef = useRef<HTMLHeadingElement>(null)
+  const card1Ref = useRef<HTMLDivElement>(null)
+  const card2Ref = useRef<HTMLDivElement>(null)
+  const card3Ref = useRef<HTMLDivElement>(null)
+  const floatingBadgeRef = useRef<HTMLDivElement>(null)
+  const chartBarsRef = useRef<HTMLDivElement>(null)
+  const pathRef = useRef<SVGPathElement>(null)
+  const circleRef = useRef<SVGCircleElement>(null)
+
+  useGSAP(() => {
+    // Header Entry
+    gsap.set(headerRef.current, { y: 20, opacity: 0 })
+    gsap.to(headerRef.current, {
+      y: 0,
+      opacity: 1,
+      duration: 0.8,
+      scrollTrigger: {
+        trigger: headerRef.current,
+        start: "top 80%",
+        toggleActions: "play none none none",
+        once: true
+      }
+    })
+
+    // Card 1
+    gsap.set(card1Ref.current, { y: 50, opacity: 0 })
+    gsap.to(card1Ref.current, {
+      y: 0,
+      opacity: 1,
+      duration: 0.8,
+      scrollTrigger: {
+        trigger: card1Ref.current,
+        start: "top 80%",
+        toggleActions: "play none none none",
+        once: true
+      }
+    })
+
+    // Floating Badge Animation
+    gsap.to(floatingBadgeRef.current, {
+      y: -10,
+      duration: 2,
+      repeat: -1,
+      yoyo: true,
+      ease: "power1.inOut"
+    })
+
+    // Card 2
+    gsap.set(card2Ref.current, { y: 50, opacity: 0 })
+    gsap.to(card2Ref.current, {
+      y: 0,
+      opacity: 1,
+      duration: 0.8,
+      scrollTrigger: {
+        trigger: card2Ref.current,
+        start: "top 80%",
+        toggleActions: "play none none none",
+        once: true
+      }
+    })
+
+    // Staggered Bars in Card 2
+    if (chartBarsRef.current) {
+      const bars = chartBarsRef.current.children
+      gsap.set(bars, { height: 0 })
+      gsap.to(bars, {
+        height: "100%", // Using 100% since individual heights are set via style prop (wait, let's check)
+        // Actually, the sample code uses style={{ height: `${h}%` }}. 
+        // gsap.from(bars, { height: 0 }) was animating FROM 0 TO the inline style height.
+        // So gsap.to(bars, { height: "auto" }) or just avoiding the set for height might be better.
+        // But for opacity it's critical. 
+        duration: 1,
+        stagger: 0.05,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: chartBarsRef.current,
+          start: "top bottom-=100",
+          once: true
+        }
+      })
+    }
+
+    // Card 3
+    gsap.set(card3Ref.current, { y: 50, opacity: 0 })
+    gsap.to(card3Ref.current, {
+      y: 0,
+      opacity: 1,
+      duration: 0.8,
+      scrollTrigger: {
+        trigger: card3Ref.current,
+        start: "top 80%",
+        toggleActions: "play none none none",
+        once: true
+      }
+    })
+
+    // Path animation in Card 3
+    if (pathRef.current) {
+      const length = pathRef.current.getTotalLength()
+      gsap.fromTo(pathRef.current, 
+        { strokeDasharray: length, strokeDashoffset: length },
+        { 
+          strokeDashoffset: 0, 
+          duration: 2, 
+          ease: "power2.inOut",
+          scrollTrigger: {
+            trigger: pathRef.current,
+            start: "top bottom-=100",
+            once: true
+          }
+        }
+      )
+    }
+
+    // Circle animation in Card 3
+    gsap.set(circleRef.current, { opacity: 0 })
+    gsap.to(circleRef.current, {
+      opacity: 1,
+      duration: 0.5,
+      delay: 2,
+      scrollTrigger: {
+        trigger: pathRef.current,
+        start: "top bottom-=100",
+        once: true
+      }
+    })
+
+    ScrollTrigger.refresh()
+  }, { scope: containerRef })
+
   return (
-    <section className="bg-[#121115] py-24 font-almarai rtl text-right overflow-hidden relative">
+    <section ref={containerRef} className="bg-[#121115] py-16 font-almarai rtl text-right overflow-hidden relative">
       {/* Decorative Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-sales-primary/20 blur-[120px] rounded-full" />
         <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-sales-secondary/20 blur-[120px] rounded-full" />
       </div>
 
-      <div className="w-[90%] max-w-7xl mx-auto relative z-10">
-        <div className="flex flex-col items-center mb-16">
-          <motion.h2 
-            initial={{ y: 20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-extrabold text-white text-center flex items-center gap-4"
+      <Container className="relative z-10">
+        <div className="flex flex-col items-center mb-10">
+          <h2 
+            ref={headerRef}
+            className="text-3xl md:text-4xl font-extrabold text-white text-center flex items-center gap-4"
           >
              <span className="text-white/20">{'['}</span> مميزات متعددة في مكان واحد <span className="text-white/20">{']'}</span>
-          </motion.h2>
+          </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Card 1: New Customers / Response Time */}
-          <motion.div 
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            viewport={{ once: true }}
-            className="glass-card rounded-[32px] p-8 min-h-[470px] flex flex-col justify-between"
+          <div 
+            ref={card1Ref}
+            className="glass-card rounded-[32px] p-6 min-h-[420px] flex flex-col justify-between"
           >
             <div className="flex flex-col gap-8">
               <div className="bg-white/5 rounded-2xl p-6 relative overflow-hidden group">
@@ -49,9 +181,8 @@ export function ExtendedFeatures() {
                   <span>56% vs last month</span>
                 </div>
                 {/* Floating "Respons time" badge */}
-                <motion.div 
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                <div 
+                  ref={floatingBadgeRef}
                   className="absolute -right-4 -bottom-4 bg-[#1e1b2e] rounded-2xl p-4 shadow-2xl border border-white/10 w-48"
                 >
                   <div className="flex justify-between items-center mb-2">
@@ -60,7 +191,7 @@ export function ExtendedFeatures() {
                   </div>
                   <h4 className="text-xl font-bold text-white">40,420</h4>
                   <p className="text-[10px] text-sales-accent mt-1">20% ↑ vs Fast month</p>
-                </motion.div>
+                </div>
               </div>
             </div>
             
@@ -70,15 +201,12 @@ export function ExtendedFeatures() {
                   تمنح المستخدم تجربة أكثر مرونة وراحة. من خلال هذه الخاصية يمكن لكل مستخدم ضبط النظام أو التطبيق بما يتناسب مع احتياجاته
                 </p>
             </div>
-          </motion.div>
+          </div>
 
           {/* Card 2: Income Analysis */}
-          <motion.div 
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="glass-card rounded-[32px] p-8 min-h-[470px] flex flex-col justify-between"
+          <div 
+            ref={card2Ref}
+            className="glass-card rounded-[32px] p-6 min-h-[420px] flex flex-col justify-between"
           >
             <div className="bg-white/5 rounded-2xl p-6">
                <div className="flex justify-between items-center mb-6">
@@ -92,17 +220,15 @@ export function ExtendedFeatures() {
                  </div>
                </div>
                {/* Simple Bar Chart Mockup */}
-               <div className="flex items-end justify-between h-32 gap-1">
+               <div ref={chartBarsRef} className="flex items-end justify-between h-32 gap-1">
                  {[40, 70, 45, 90, 65, 80, 50, 85, 60, 95].map((h, i) => (
-                   <motion.div 
+                   <div 
                     key={i}
-                    initial={{ height: 0 }}
-                    whileInView={{ height: `${h}%` }}
-                    transition={{ duration: 1, delay: 0.5 + (i * 0.05) }}
+                    style={{ height: `${h}%` }}
                     className="flex-1 bg-sales-secondary/40 rounded-t-sm relative group"
                    >
                      <div className="absolute inset-0 bg-sales-secondary opacity-0 group-hover:opacity-100 transition-opacity" />
-                   </motion.div>
+                   </div>
                  ))}
                </div>
                <div className="flex justify-between mt-2 text-[8px] text-white/20">
@@ -121,15 +247,12 @@ export function ExtendedFeatures() {
                   تمنح المستخدم تجربة أكثر مرونة وراحة. من خلال هذه الخاصية يمكن لكل مستخدم ضبط النظام أو التطبيق بما يتناسب مع احتياجاته
                 </p>
             </div>
-          </motion.div>
+          </div>
 
           {/* Card 3: Over Time Line Chart */}
-          <motion.div 
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="glass-card rounded-[32px] p-8 min-h-[470px] flex flex-col justify-between"
+          <div 
+            ref={card3Ref}
+            className="glass-card rounded-[32px] p-6 min-h-[420px] flex flex-col justify-between"
           >
             <div className="bg-white/5 rounded-2xl p-6">
               <div className="mb-6">
@@ -139,10 +262,8 @@ export function ExtendedFeatures() {
               {/* Simple Line Chart Mockup */}
               <div className="relative h-32 w-full">
                 <svg viewBox="0 0 200 100" className="w-full h-full">
-                  <motion.path 
-                    initial={{ pathLength: 0 }}
-                    whileInView={{ pathLength: 1 }}
-                    transition={{ duration: 2, delay: 0.5 }}
+                  <path 
+                    ref={pathRef}
                     d="M0,50 Q25,30 50,55 T100,20 T150,60 T200,40"
                     fill="none"
                     stroke="url(#lineGradient)"
@@ -155,10 +276,8 @@ export function ExtendedFeatures() {
                     </linearGradient>
                   </defs>
                   {/* Glowing point */}
-                  <motion.circle 
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ delay: 2.5 }}
+                  <circle 
+                    ref={circleRef}
                     cx="100" cy="20" r="4" fill="#FB432C"
                     className="drop-shadow-[0_0_8px_#FB432C]"
                   />
@@ -179,9 +298,10 @@ export function ExtendedFeatures() {
                   تمنح المستخدم تجربة أكثر مرونة وراحة. من خلال هذه الخاصية يمكن لكل مستخدم ضبط النظام أو التطبيق بما يتناسب مع احتياجاته
                 </p>
             </div>
-          </motion.div>
+          </div>
         </div>
-      </div>
+      </Container>
     </section>
   )
 }
+

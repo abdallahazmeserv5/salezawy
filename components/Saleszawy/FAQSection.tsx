@@ -1,9 +1,16 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import { Plus, Minus } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { motion } from "framer-motion"
+import { Container } from "@/components/ui/container"
+import gsap from "gsap"
+import { useGSAP } from "@gsap/react"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 const faqs = [
   {
@@ -35,28 +42,47 @@ const faqs = [
 
 export function FAQSection() {
   const [openId, setOpenId] = useState<string | null>("03")
+  const containerRef = useRef<HTMLDivElement>(null)
+  const itemsRef = useRef<HTMLDivElement>(null)
+
+  useGSAP(() => {
+    if (itemsRef.current) {
+      const children = itemsRef.current.children
+      gsap.set(children, { y: 20, opacity: 0 })
+      gsap.to(children, {
+        y: 0,
+        opacity: 1,
+        duration: 0.5,
+        stagger: 0.1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: itemsRef.current,
+          start: "top bottom-=50",
+          toggleActions: "play none none none",
+          once: true
+        }
+      })
+    }
+    ScrollTrigger.refresh()
+  }, { scope: containerRef })
 
   return (
-    <section className="py-24 bg-sales-bg font-almarai rtl text-right">
-      <div className="w-[90%] max-w-4xl mx-auto space-y-12 md:space-y-16">
+    <section ref={containerRef} className="py-16 bg-sales-bg font-almarai rtl text-right">
+      <Container className="space-y-12 md:space-y-16">
         
         {/* Header */}
         <div className="text-center space-y-4">
-          <h2 className="text-4xl md:text-5xl font-extrabold flex justify-center gap-2 items-center">
+          <h2 className="text-3xl md:text-4xl font-extrabold flex justify-center gap-2 items-center">
             <span className="text-sales-accent">أسئلة</span>
             <span className="text-white">شائعة</span>
           </h2>
           <p className="text-white/60">كل ما تحتاج لمعرفته حول سيلزاوي وكيفية البدء</p>
         </div>
 
-        <div className="space-y-4">
-          {faqs.map((faq, i) => (
-            <motion.div 
+        <div ref={itemsRef} className="space-y-4">
+          {faqs.map((faq) => (
+            <div 
               key={faq.id}
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
-              viewport={{ once: true }}
               className={cn(
                 "group rounded-[16px] border transition-all duration-300 overflow-hidden relative",
                 openId === faq.id 
@@ -117,10 +143,11 @@ export function FAQSection() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
-      </div>
+      </Container>
     </section>
   )
 }
+

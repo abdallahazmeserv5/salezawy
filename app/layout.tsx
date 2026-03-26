@@ -2,6 +2,7 @@ import { Geist_Mono, Inter, Poppins, Almarai } from "next/font/google"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { DirectionProvider } from "@/components/ui/direction"
 import { cn } from "@/lib/utils";
 
 
@@ -44,7 +45,11 @@ export default function RootLayout({
       )}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <DirectionProvider dir="rtl">
+            {children}
+          </DirectionProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

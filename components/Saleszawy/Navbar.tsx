@@ -1,10 +1,12 @@
 "use client"
 
-import React from "react"
+import React, { useRef } from "react"
 import Link from "next/link"
 import { Search, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { motion } from "framer-motion"
+import { Container } from "@/components/ui/container"
+import gsap from "gsap"
+import { useGSAP } from "@gsap/react"
 
 const navLinks = [
   { name: "الرئيسية", href: "#", active: true },
@@ -15,14 +17,23 @@ const navLinks = [
 ]
 
 export function Navbar() {
+  const navRef = useRef<HTMLElement>(null)
+
+  useGSAP(() => {
+    gsap.from(navRef.current, {
+      y: -50,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power2.out",
+    })
+  }, { scope: navRef })
+
   return (
-    <motion.nav 
-      initial={{ y: -50, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      dir="rtl"
-      className="fixed top-[24px] left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1529px] h-[83px] glass-nav rounded-[28px] px-[50px] py-[15px] flex items-center justify-between font-almarai selection:bg-sales-accent/30"
+    <nav 
+      ref={navRef}
+      className="fixed top-[20px] left-1/2 -translate-x-1/2 z-50 w-[95%] glass-nav rounded-[24px] py-[10px] font-almarai selection:bg-sales-accent/30"
     >
+      <Container className="flex items-center justify-between h-full">
       {/* Logo Section (Far Right in RTL) */}
       <div className="flex items-center gap-[12px]">
         <div className="w-[40px] h-[40px] bg-sales-accent rounded-[12px] flex items-center justify-center shadow-lg shadow-sales-accent/20">
@@ -41,19 +52,19 @@ export function Navbar() {
           </svg>
         </div>
         <div className="flex flex-col items-start leading-[1.2]">
-          <span className="text-white font-bold text-[22px] tracking-[-0.02em] font-poppins">Saleszawy</span>
+          <span className="text-white font-bold text-[20px] tracking-[-0.02em] font-poppins">Saleszawy</span>
           <span className="text-white/60 text-[12px] font-medium tracking-wide">سيلزاوي</span>
         </div>
       </div>
 
       {/* Navigation Links (Center) */}
-      <ul className="hidden xl:flex items-center gap-[25px]">
+      <ul className="hidden xl:flex items-center gap-[20px]">
         {navLinks.map((link) => (
           <li key={link.name}>
             <Link
               href={link.href}
               className={cn(
-                "text-[16px] font-medium transition-all duration-300 hover:text-sales-accent flex items-center gap-[6px]",
+                "text-[14px] font-medium transition-all duration-300 hover:text-sales-accent flex items-center gap-[6px]",
                 link.active ? "text-sales-accent font-bold" : "text-white/70"
               )}
             >
@@ -65,21 +76,22 @@ export function Navbar() {
       </ul>
 
       {/* Actions: Search & Register (Left) */}
-      <div className="flex items-center gap-[24px]">
+      <div className="flex items-center gap-[16px]">
         <div className="relative hidden md:block">
           <input
             type="text"
             placeholder="بحث ذكي..."
-            dir="rtl"
-            className="bg-white/[0.05] border border-white/10 rounded-full py-[10px] pr-[48px] pl-[20px] text-[14px] text-white placeholder:text-white/30 focus:outline-none focus:border-sales-accent/50 focus:bg-white/[0.08] w-[240px] transition-all duration-300"
+            className="bg-white/[0.05] border border-white/10 rounded-full py-[8px] pr-[44px] pl-[16px] text-[13px] text-white placeholder:text-white/30 focus:outline-none focus:border-sales-accent/50 focus:bg-white/[0.08] w-[200px] transition-all duration-300"
           />
           <Search className="absolute right-[16px] top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-white/40" />
         </div>
         
-        <button className="bg-transparent border border-white/20 text-white text-[15px] font-bold px-[32px] py-[10px] rounded-[12px] hover:bg-white hover:text-black hover:border-white transition-all duration-300">
+        <button className="bg-transparent border border-white/20 text-white text-[14px] font-bold px-[24px] py-[8px] rounded-[10px] hover:bg-white hover:text-black hover:border-white transition-all duration-300">
           تسجيل
         </button>
       </div>
-    </motion.nav>
+      </Container>
+    </nav>
   )
 }
+
