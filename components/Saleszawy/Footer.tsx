@@ -3,7 +3,7 @@
 import React from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Facebook, Twitter, Instagram, Linkedin, Send } from "lucide-react"
+import { Facebook, X, Instagram, Linkedin, Send } from "lucide-react"
 import { motion } from "framer-motion"
 
 export function Footer() {
@@ -38,7 +38,7 @@ export function Footer() {
             </p>
 
             <div className="flex items-center gap-4">
-              {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
+              {[Facebook, X, Instagram, Linkedin].map((Icon, i) => (
                 <Link key={i} href="#" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-sales-accent hover:border-sales-accent transition-all">
                   <Icon size={18} />
                 </Link>

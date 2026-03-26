@@ -3,7 +3,7 @@
 import React, { useState } from "react"
 import { Plus, Minus } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 
 const faqs = [
   {
@@ -34,16 +34,17 @@ const faqs = [
 ]
 
 export function FAQSection() {
-  const [openId, setOpenId] = useState<string | null>("01")
+  const [openId, setOpenId] = useState<string | null>("03")
 
   return (
     <section className="py-24 bg-sales-bg font-almarai rtl text-right">
-      <div className="w-[90%] max-w-4xl mx-auto space-y-16">
+      <div className="w-[90%] max-w-4xl mx-auto space-y-12 md:space-y-16">
         
         {/* Header */}
         <div className="text-center space-y-4">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-white">
-            أسئلة <span className="text-sales-accent">شائعة</span>
+          <h2 className="text-4xl md:text-5xl font-extrabold flex justify-center gap-2 items-center">
+            <span className="text-sales-accent">أسئلة</span>
+            <span className="text-white">شائعة</span>
           </h2>
           <p className="text-white/60">كل ما تحتاج لمعرفته حول سيلزاوي وكيفية البدء</p>
         </div>
@@ -57,37 +58,48 @@ export function FAQSection() {
               transition={{ delay: i * 0.1, duration: 0.5 }}
               viewport={{ once: true }}
               className={cn(
-                "group rounded-[24px] border transition-all duration-300 overflow-hidden",
+                "group rounded-[16px] border transition-all duration-300 overflow-hidden relative",
                 openId === faq.id 
-                  ? "bg-white/5 border-sales-accent/30" 
-                  : "bg-white/2 border-white/10 hover:border-white/20"
+                  ? "bg-white/[0.04] border-sales-accent/40" 
+                  : "bg-white/[0.02] border-white/5 hover:border-white/10"
               )}
             >
               <button 
                 onClick={() => setOpenId(openId === faq.id ? null : faq.id)}
-                className="w-full flex items-center justify-between p-6 md:p-8 text-right"
+                className="relative w-full flex items-center h-[80px] md:h-[90px] px-6 md:px-8"
               >
-                <div className="flex items-center gap-6">
+                {/* Right: Number */}
+                <div className="absolute right-6 md:right-8 flex items-center">
                   <span className={cn(
-                    "text-2xl font-bold font-poppins transition-colors",
+                    "text-xl font-bold font-poppins transition-colors",
                     openId === faq.id ? "text-sales-accent" : "text-white/20"
                   )}>
                     {faq.id}
                   </span>
-                  <span className="text-lg md:text-xl font-bold text-white group-hover:text-sales-accent transition-colors">
+                </div>
+
+                {/* Center: Question Text */}
+                <div className="flex-1 flex justify-center text-center px-16">
+                  <span className={cn(
+                    "text-base md:text-lg font-bold transition-colors",
+                    openId === faq.id ? "text-white" : "text-white group-hover:text-sales-accent"
+                  )}>
                     {faq.question}
                   </span>
                 </div>
                 
-                <div className={cn(
-                  "flex items-center justify-center w-8 h-8 rounded-full transition-all duration-500",
-                  openId === faq.id ? "bg-sales-accent rotate-180" : "bg-white/5"
-                )}>
-                  {openId === faq.id ? (
-                    <Minus className="w-4 h-4 text-white" />
-                  ) : (
-                    <Plus className="w-4 h-4 text-white/40" />
-                  )}
+                {/* Left: Plus/Minus Icon */}
+                <div className="absolute left-6 md:left-8 flex items-center">
+                  <div className={cn(
+                    "flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300",
+                    openId === faq.id ? "bg-[#F03606] text-white" : "bg-white/5 text-white/40 group-hover:bg-white/10"
+                  )}>
+                    {openId === faq.id ? (
+                      <Minus className="w-4 h-4" strokeWidth={3} />
+                    ) : (
+                      <Plus className="w-4 h-4" strokeWidth={3} />
+                    )}
+                  </div>
                 </div>
               </button>
 
@@ -96,9 +108,13 @@ export function FAQSection() {
                 openId === faq.id ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
               )}>
                 <div className="overflow-hidden">
-                  <p className="p-8 pt-0 text-white/60 leading-relaxed text-lg border-t border-white/5 mt-4">
-                    {faq.answer}
-                  </p>
+                  <div className="px-6 md:px-8 pb-6 md:pb-8">
+                    <div className="border-t border-white/10 pt-6">
+                      <p className="text-white/60 leading-relaxed text-sm md:text-base text-right max-w-full">
+                        {faq.answer}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>

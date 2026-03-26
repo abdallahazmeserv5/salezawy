@@ -7,107 +7,87 @@ import { motion } from "framer-motion"
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center pt-48 pb-20 overflow-hidden bg-sales-bg font-almarai rtl text-right">
-      {/* Background Noise Texture */}
-      <div 
-        className="absolute inset-0 z-0 opacity-40 pointer-events-none"
-        style={{ 
-          backgroundImage: "url('/images/saleszawy/noise-bg.png')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          mixBlendMode: 'overlay'
-        }}
-      />
+    <section className="relative w-full min-h-[952px] flex flex-col items-center justify-center overflow-hidden bg-[#050505] font-almarai rtl text-right pt-[120px]">
+      {/* Background Glows (Approximate from image) */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute top-[10%] left-[5%] w-[600px] h-[600px] bg-[#fb432c]/5 blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute bottom-[15%] right-[10%] w-[500px] h-[500px] bg-[#27213b]/20 blur-[150px] rounded-full pointer-events-none" />
+        <div className="absolute top-[30%] right-[15%] w-[400px] h-[400px] bg-[#0ea5e9]/10 blur-[100px] rounded-full pointer-events-none" />
+      </div>
 
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.8 }}
-        whileInView={{ opacity: 0.07, scale: 1 }}
-        transition={{ duration: 1.5 }}
-        className="absolute top-20 right-[10%] w-[300px] h-[300px] bg-sales-accent blur-[100px] rounded-full" 
-      />
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.8 }}
-        whileInView={{ opacity: 0.1, scale: 1 }}
-        transition={{ duration: 1.5, delay: 0.2 }}
-        className="absolute bottom-20 left-[5%] w-[400px] h-[400px] bg-sales-purple blur-[120px] rounded-full" 
-      />
-
-      {/* Hero Content Container */}
-      <div className="relative z-10 w-[90%] max-w-7xl flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-        
-        {/* Text Content */}
+      <div className="relative z-10 w-full max-w-[1920px] px-[80px] lg:px-[160px] flex flex-col lg:flex-row items-center justify-between gap-[60px]">
+        {/* Text Side (Right in RTL, Left in UI) */}
         <motion.div 
-          initial={{ x: 50, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="flex-1 space-y-8"
+          className="flex-1 max-w-[850px] text-right"
         >
-          <div className="space-y-4">
-            <motion.h1 
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              className="text-5xl lg:text-7xl font-bold leading-[1.1] text-white"
-            >
-              <span className="text-sales-accent">مساعد AI</span> ذكي <br />
-              للمبيعات
-            </motion.h1>
-            <motion.p 
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-              className="text-xl lg:text-3xl font-medium text-white/90"
-            >
-              يتولى عميلك بشكل كامل
-            </motion.p>
-          </div>
-          
-          <motion.p 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 0.6 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-            className="text-lg text-white/60 max-w-2xl leading-relaxed"
-          >
-            هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص.
-          </motion.p>
+          <div className="space-y-[32px]">
+            <div className="space-y-[16px]">
+              <motion.h1 
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                className="text-[64px] lg:text-[86px] font-extrabold leading-[1.1] text-white"
+              >
+                <span className="bg-gradient-to-l from-[#C084FC] via-[#38BDF8] to-[#2DD4BF] bg-clip-text text-transparent">
+                  مساعد AI ذكي
+                </span>{" "}
+                للمبيعات
+              </motion.h1>
+              
+              <motion.h2 
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+                className="text-[48px] lg:text-[64px] font-bold text-white leading-tight"
+              >
+                يتولي عميلك بشكل كامل
+              </motion.h2>
+            </div>
 
-          <motion.div 
-            initial={{ y: 20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-            className="flex flex-wrap items-center gap-4"
-          >
-            <button className="flex items-center gap-2 bg-sales-primary hover:opacity-90 text-white font-bold py-4 px-10 rounded-full transition-all group">
-              بدأ التجــربة
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x--1" />
-            </button>
-            <button className="text-white hover:text-sales-accent transition-colors font-medium px-8 py-4">
-              إكتشف المزيد
-            </button>
-          </motion.div>
+            <motion.p 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="text-[20px] lg:text-[24px] text-white/50 max-w-[680px] leading-[1.6] font-medium"
+            >
+              هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص.
+            </motion.p>
+
+            <motion.div 
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+              className="pt-[20px]"
+            >
+              <button className="flex items-center gap-[12px] bg-transparent border border-[#fb432c]/30 hover:border-[#fb432c]/60 text-white font-bold py-[18px] px-[48px] rounded-[18px] transition-all group relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-[#fb432c]/10 to-transparent opacity-50 group-hover:opacity-100 transition-opacity" />
+                <span className="text-[20px] relative z-10">بدأ التجــربة</span>
+                <ArrowRight className="w-[20px] h-[20px] relative z-10 transform group-hover:-translate-x-[4px] transition-transform" />
+              </button>
+            </motion.div>
+          </div>
         </motion.div>
 
-        {/* AI Robot Image Illustration */}
+        {/* Image Side (Left in RTL, Right in UI) */}
         <motion.div 
-          initial={{ scale: 0.9, opacity: 0 }}
-          whileInView={{ scale: 1, opacity: 1 }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1 }}
           className="flex-1 relative flex justify-center items-center"
         >
-          <motion.div 
-            animate={{ y: [0, -15, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="relative w-[400px] h-[500px] lg:w-[500px] lg:h-[600px]"
-          >
+          <div className="relative w-[500px] h-[600px] lg:w-[850px] lg:h-[900px]">
+             {/* Robot and Phone Illustration */}
              <Image 
               src="/images/saleszawy/ai-robot.png"
               alt="AI Robot Assistant"
               fill
-              className="object-contain drop-shadow-[0_20px_50px_rgba(251,67,44,0.15)]"
+              className="object-contain"
               priority
             />
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>
