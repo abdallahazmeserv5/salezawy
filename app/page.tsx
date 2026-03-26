@@ -1,3 +1,4 @@
+import { DashboardSection } from "@/components/Saleszawy/DashboardSection"
 import { Footer } from "@/components/layout/Footer"
 import { ExtendedFeatures } from "@/components/Saleszawy/ExtendedFeatures"
 import { FAQSection } from "@/components/Saleszawy/FAQSection"
@@ -15,6 +16,7 @@ export default function Page() {
       <Hero />
       <SocialProof />
       <ExtendedFeatures />
+      <DashboardSection />
       <SmartFeatures />
       <Testimonials />
       <PlanSection />

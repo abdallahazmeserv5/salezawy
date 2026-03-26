@@ -1,230 +1,322 @@
 "use client"
 
 import React from "react"
-import Image from "next/image"
-import { TrendingUp, Users, Clock, ArrowUpRight } from "lucide-react"
 import { motion } from "framer-motion"
+import { 
+  Users, 
+  Settings, 
+  Bell, 
+  Calendar, 
+  Search, 
+  ChevronDown, 
+  LayoutDashboard, 
+  MessageSquare, 
+  Globe, 
+  CreditCard,
+  User
+} from "lucide-react"
+
+// Animation Variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" }
+  },
+}
+
+const progressVariants = (width: string) => ({
+  hidden: { width: 0 },
+  visible: { 
+    width: width,
+    transition: { duration: 1, ease: "easeInOut", delay: 0.5 }
+  },
+})
 
 export function DashboardSection() {
   return (
-    <section className="rtl relative overflow-hidden bg-sales-bg py-24 text-right font-almarai">
-      {/* Decorative Glow */}
-      <div className="pointer-events-none absolute top-1/2 left-1/2 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sales-purple/20 blur-[150px]" />
+    <section className="relative w-full overflow-hidden bg-[#0D0D11] py-24 font-almarai rtl text-right">
+      {/* Background Decorative Elements */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute top-1/2 left-1/2 h-[800px] w-[800px] -translate-x-[60%] -translate-y-1/2 rounded-full bg-sales-purple/5 blur-[120px]" />
+        <div className="absolute -top-[10%] right-[10%] h-[400px] w-[400px] rounded-full bg-sales-accent/5 blur-[100px]" />
+      </div>
 
-      <div className="relative z-10 mx-auto w-[90%] max-w-7xl space-y-20">
-        {/* Dashboard Mockup Grid */}
-        <div className="grid items-center gap-8 lg:grid-cols-12">
-          {/* Dashboard Left Column (Metrics) */}
-          <motion.div
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="order-2 space-y-6 lg:order-1 lg:col-span-8"
-          >
-            <div className="glass-nav group relative overflow-hidden rounded-[32px] border border-white/10 p-8">
-              <div className="absolute top-0 right-0 h-32 w-32 rounded-full bg-sales-accent/10 blur-3xl" />
+      <div className="relative z-10 mx-auto max-w-[1440px] px-4 md:px-8">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="flex flex-col gap-6 lg:flex-row"
+        >
+          {/* Main Content Area (Now on the left/center in RTL) */}
+          <div className="flex-1 space-y-6">
+            {/* Header Area */}
+            <motion.div variants={itemVariants} className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+              <div>
+                <h2 className="text-xl font-bold text-white/50">لوحة التقارير التحليلية</h2>
+                <h1 className="text-3xl font-extrabold text-white">مرحباً بعودتك!</h1>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="relative">
+                  <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
+                  <input 
+                    type="text" 
+                    placeholder="بحث عن عميل..." 
+                    className="w-full rounded-full border border-white/10 bg-white/5 py-2 pr-10 pl-4 text-sm text-white focus:border-sales-purple/50 focus:outline-none"
+                  />
+                </div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70">
+                  <Calendar className="h-5 w-5" />
+                </div>
+                <div className="relative flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70">
+                  <Bell className="h-5 w-5" />
+                  <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-sales-accent" />
+                </div>
+              </div>
+            </motion.div>
 
-              <div className="flex flex-col gap-8 md:flex-row">
-                {/* Metric 1 */}
-                <div className="flex-1 space-y-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sales-accent/20">
-                        <Users className="h-5 w-5 text-sales-accent" />
+            {/* Dashboard Stats Grid */}
+            <div className="grid gap-6 lg:grid-cols-3">
+              {/* Customer Status Card */}
+              <motion.div variants={itemVariants} className="rounded-[24px] border border-white/10 bg-[#16161D] p-6 shadow-2xl transition-all hover:border-white/20">
+                <div className="mb-6 flex items-center justify-between">
+                  <h3 className="text-lg font-bold text-white">حالة العملاء</h3>
+                  <MoreVerticalIcon />
+                </div>
+                <div className="space-y-4">
+                  {[
+                    { label: "Closed_won", count: 9, color: "bg-[#00C2A7]" },
+                    { label: "Contacted", count: 46, color: "bg-sales-purple" },
+                    { label: "New", count: 2033, color: "bg-white/20" },
+                    { label: "Attempt to Contact", count: 12, color: "bg-sales-accent" },
+                  ].map((status, i) => (
+                    <div key={i} className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className={`h-2 w-2 rounded-full ${status.color}`} />
+                        <span className="text-sm text-white/60">{status.label}</span>
                       </div>
-                      <span className="font-medium text-white">
-                        العملاء الجدد
-                      </span>
+                      <span className="text-sm font-bold text-white">{status.count}</span>
                     </div>
-                    <span className="flex items-center gap-1 text-sm font-bold text-green-400">
-                      +56% <TrendingUp className="h-4 w-4" />
-                    </span>
-                  </div>
-                  <div className="space-y-1">
-                    <h3 className="font-poppins text-4xl font-bold text-white">
-                      5,020
-                    </h3>
-                    <p className="text-sm text-white/40">
-                      مقارنة بالشهر الماضي
-                    </p>
-                  </div>
-                  {/* Mini Sparkline Placeholder */}
-                  <div className="flex h-16 w-full items-end gap-1">
-                    {[40, 70, 45, 90, 65, 80, 55, 95].map((h, i) => (
-                      <div
-                        key={i}
-                        className="flex-1 rounded-t-sm bg-sales-accent/20 transition-all duration-500 group-hover:bg-sales-accent/40"
-                        style={{ height: `${h}%` }}
-                      />
+                  ))}
+                </div>
+                <div className="mt-8">
+                   <div className="flex h-2 w-full overflow-hidden rounded-full bg-white/5">
+                      <div className="h-full bg-[#00C2A7]" style={{ width: '15%' }} />
+                      <div className="h-full bg-sales-purple" style={{ width: '35%' }} />
+                      <div className="h-full bg-white/20" style={{ width: '40%' }} />
+                      <div className="h-full bg-sales-accent" style={{ width: '10%' }} />
+                   </div>
+                </div>
+              </motion.div>
+
+              {/* Communication by Country */}
+              <motion.div variants={itemVariants} className="rounded-[24px] border border-white/10 bg-[#16161D] p-6 shadow-2xl transition-all hover:border-white/20">
+                <div className="mb-6 flex items-center justify-between">
+                  <h3 className="text-lg font-bold text-white">التواصل حسب الدولة (%)</h3>
+                  <Globe className="h-5 w-5 text-white/40" />
+                </div>
+                <div className="space-y-6">
+                  {[
+                    { country: "Other", percentage: "90.91%", color: "#00C2A7" },
+                    { country: "Jordan", percentage: "9.09%", color: "#00C2A7" },
+                    { country: "Saudi Arabia", percentage: "0%", color: "#00C2A7" },
+                  ].map((item, i) => (
+                    <div key={i} className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-white/60">{item.country}</span>
+                        <span className="font-bold text-white">{item.percentage}</span>
+                      </div>
+                      <div className="h-1.5 w-full rounded-full bg-white/5">
+                        <motion.div 
+                          variants={progressVariants(item.percentage)}
+                          className="h-full rounded-full bg-[#00C2A7]"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Recent Activities */}
+              <motion.div variants={itemVariants} className="rounded-[24px] border border-white/10 bg-[#16161D] p-6 shadow-2xl transition-all hover:border-white/20">
+                <div className="mb-6 flex items-center justify-between">
+                  <h3 className="text-lg font-bold text-white">الفواتير والصفقات</h3>
+                  <CreditCard className="h-5 w-5 text-white/40" />
+                </div>
+                <div className="space-y-4">
+                  {[
+                    { user: "محمد العوضي", action: "صفقة جديدة مكتملة", time: "منذ دقيقتين", value: "+$1,200" },
+                    { user: "AI Bot Sales", action: "تحديث حالة عميل", time: "منذ ساعة", value: null },
+                    { user: "سارة محمود", action: "تم إصدار فاتورة", time: "منذ ٣ ساعات", value: "$450" },
+                  ].map((activity, i) => (
+                    <div key={i} className="group flex items-center gap-3">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/5 text-white/60">
+                        <User className="h-5 w-5" />
+                      </div>
+                      <div className="flex flex-1 flex-col overflow-hidden">
+                        <span className="truncate text-sm font-bold text-white">{activity.user}</span>
+                        <span className="truncate text-xs text-white/40">{activity.action}</span>
+                      </div>
+                      <div className="flex flex-col items-end whitespace-nowrap">
+                        {activity.value && <span className="text-sm font-bold text-[#00C2A7]">{activity.value}</span>}
+                        <span className="text-[10px] text-white/30">{activity.time}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Performance Table */}
+            <motion.div variants={itemVariants} className="overflow-hidden rounded-[24px] border border-white/10 bg-[#16161D] shadow-2xl">
+              <div className="border-b border-white/10 p-6">
+                <h3 className="text-lg font-bold text-white">أداء الموظفين والتغطية الدولية</h3>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-right">
+                  <thead>
+                    <tr className="border-b border-white/5 bg-white/5 text-sm text-white/40">
+                      <th className="px-6 py-4 font-medium">اسم الموظف</th>
+                      <th className="px-6 py-4 font-medium">عدد المكالمات</th>
+                      <th className="px-6 py-4 font-medium">الدول النشطة</th>
+                      <th className="px-6 py-4 font-medium">النسبة المئوية</th>
+                      <th className="px-6 py-4 font-medium">العمولة المستحقة</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5">
+                    {[
+                      { name: "محمد سيلز", calls: 154, country: "Jordan", pct: "75%", commission: "$1,200", status: "نشط" },
+                      { name: "AI Sales Bot", calls: 890, country: "Global", pct: "98%", commission: "$0", status: "متصل" },
+                      { name: "أحمد مبيعات", calls: 42, country: "Saudi Arabia", pct: "30%", commission: "$450", status: "خامل" },
+                    ].map((row, i) => (
+                      <motion.tr 
+                        key={i} 
+                        whileHover={{ backgroundColor: "rgba(255,255,255,0.02)" }}
+                        className="text-sm text-white/80 transition-colors"
+                      >
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="h-8 w-8 rounded-lg bg-sales-purple/20 text-sales-purple flex items-center justify-center">
+                              <User className="h-4 w-4" />
+                            </div>
+                            <span className="font-bold">{row.name}</span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-white/60">{row.calls}</td>
+                        <td className="px-6 py-4">
+                          <span className="rounded-full bg-white/5 px-3 py-1 text-xs">{row.country}</span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-2">
+                             <div className="h-1.5 w-16 rounded-full bg-white/5">
+                                <motion.div 
+                                  initial={{ width: 0 }}
+                                  whileInView={{ width: row.pct }}
+                                  transition={{ duration: 0.8, delay: 0.8 + (i * 0.1) }}
+                                  className="h-full rounded-full bg-sales-purple" 
+                                />
+                             </div>
+                             <span className="text-xs">{row.pct}</span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 font-bold text-[#00C2A7]">{row.commission}</td>
+                      </motion.tr>
                     ))}
-                  </div>
-                </div>
-
-                <div className="hidden w-px bg-white/10 md:block" />
-
-                {/* Metric 2 */}
-                <div className="flex-1 space-y-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/20">
-                        <Clock className="h-5 w-5 text-blue-400" />
-                      </div>
-                      <span className="font-medium text-white">
-                        سرعة الاستجابة
-                      </span>
-                    </div>
-                    <span className="flex items-center gap-1 text-sm font-bold text-blue-400">
-                      -20% <TrendingUp className="h-4 w-4" />
-                    </span>
-                  </div>
-                  <div className="space-y-1">
-                    <h3 className="font-poppins text-4xl font-bold text-white">
-                      40,420
-                    </h3>
-                    <p className="text-sm text-white/40">
-                      متوسط الثانية الواحدة
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="flex -space-x-3 rtl:space-x-reverse">
-                      {[1, 2, 3, 4].map((i) => (
-                        <div
-                          key={i}
-                          className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border-2 border-sales-bg bg-sales-purple text-[10px] text-white"
-                        >
-                          <Image
-                            src={`https://i.pravatar.cc/100?u=${i}`}
-                            alt="user"
-                            width={32}
-                            height={32}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                    <span className="text-xs text-white/40">
-                      فريق عملك متصل الآن
-                    </span>
-                  </div>
-                </div>
+                  </tbody>
+                </table>
               </div>
-            </div>
+            </motion.div>
+          </div>
 
-            {/* Chart Card */}
-            <div className="glass-nav group rounded-[32px] border border-white/10 p-8">
-              <div className="mb-8 flex items-center justify-between text-right">
-                <div className="space-y-1">
-                  <h4 className="text-xl font-bold text-white">
-                    إحصائيات المبيعات
-                  </h4>
-                  <p className="text-sm text-white/40">
-                    تحليل الدخل الشهري للسنة الحالية
-                  </p>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2">
-                    <div className="h-3 w-3 rounded-full bg-sales-accent" />
-                    <span className="font-poppins text-xs text-white/60">
-                      Income
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="h-3 w-3 rounded-full bg-blue-500" />
-                    <span className="font-poppins text-xs text-white/60">
-                      Sales
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex h-[300px] w-full items-end justify-between gap-4 font-poppins text-[10px] text-white/30">
-                {[
-                  "JAN",
-                  "FEB",
-                  "MAR",
-                  "APR",
-                  "MAY",
-                  "JUN",
-                  "JUL",
-                  "AUG",
-                  "SEP",
-                  "OCT",
-                  "NOV",
-                  "DEC",
-                ].map((m, i) => (
-                  <div
-                    key={m}
-                    className="flex flex-1 flex-col items-center gap-3"
-                  >
-                    <div className="flex h-[250px] w-full flex-col justify-end gap-1">
-                      <motion.div
-                        initial={{ height: 0 }}
-                        whileInView={{
-                          height: `${[40, 60, 45, 90, 65, 80, 55, 95, 70, 85, 50, 75][i % 12]}%`,
-                        }}
-                        transition={{ duration: 1, delay: i * 0.05 }}
-                        className="w-full cursor-pointer rounded-t-md bg-sales-accent/30 transition-all hover:bg-sales-accent/60"
-                      />
-                      <motion.div
-                        initial={{ height: 0 }}
-                        whileInView={{
-                          height: `${[30, 50, 35, 80, 55, 70, 45, 85, 60, 75, 40, 65][i % 12]}%`,
-                        }}
-                        transition={{ duration: 1, delay: i * 0.05 + 0.1 }}
-                        className="w-full cursor-pointer rounded-t-md bg-blue-500/30 transition-all hover:bg-blue-500/60"
-                      />
-                    </div>
-                    <span>{m}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Feature Text Column */}
-          <motion.div
-            initial={{ x: 50, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="order-1 space-y-8 lg:order-2 lg:col-span-4"
+          {/* Sidebar Area (Now on the right in RTL) */}
+          <motion.div 
+            variants={itemVariants}
+            className="w-full lg:w-[280px]"
           >
-            <div className="space-y-6">
-              <div className="bg-sales-primary flex h-16 w-16 items-center justify-center rounded-2xl text-white shadow-[0_0_30px_rgba(251,67,44,0.3)]">
-                <TrendingUp className="h-8 w-8" />
+            <div className="h-full space-y-8 rounded-[24px] border border-white/10 bg-[#16161D] p-6 shadow-2xl">
+              {/* Brand Logo */}
+              <div className="flex items-center gap-3 border-b border-white/10 pb-6">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sales-purple">
+                  <Settings className="h-6 w-6 text-white" />
+                </div>
+                <span className="text-xl font-black text-white tracking-widest">SERV5</span>
               </div>
-              <h3 className="text-3xl leading-tight font-bold text-white md:text-4xl">
-                إحصائيات خاصة <br />
-                <span className="text-sales-gradient">بكل عميل</span>
-              </h3>
-              <p className="text-lg leading-relaxed text-white/60">
-                تمنح المستخدم تجربة أكثر مرونة وراحة. من خلال هذه الخاصية يمكن
-                لكل مستخدم ضبط النظام أو التطبيق بما يتناسب مع احتياجاته وأهدافه
-                البيعية.
-              </p>
+
+              {/* Navigation */}
+              <nav className="space-y-2">
+                <NavItem icon={<LayoutDashboard size={20} />} label="لوحات التحكم" active />
+                <NavItem icon={<Users size={20} />} label="المبيعات والعملاء" hasSub />
+                <NavItem icon={<MessageSquare size={20} />} label="المحادثات والرسائل" badge="١٢" />
+                <NavItem icon={<Settings size={20} />} label="الإعدادات العامة" />
+                <NavItem icon={<Globe size={20} />} label="التغطية والنشاط" />
+              </nav>
+
+              <div className="mt-12 space-y-4">
+                 <div className="rounded-2xl bg-sales-purple/10 p-4 border border-sales-purple/20">
+                    <p className="text-xs text-white/60 mb-2">استخدام النظام</p>
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-sm font-bold text-white">٨٥٪ من السعة</span>
+                    </div>
+                    <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                       <div className="h-full bg-sales-purple w-[85%]" />
+                    </div>
+                 </div>
+                 <button className="w-full rounded-xl bg-white px-4 py-3 text-sm font-bold text-black transition-transform hover:scale-[1.02] active:scale-[0.98]">
+                    تطوير الخطة
+                 </button>
+              </div>
             </div>
-
-            <ul className="space-y-4">
-              {[
-                "تحليل ذكي لسلوك العملاء",
-                "تقارير دورية تلقائية",
-                "تتبع المبيعات لحظة بلحظة",
-              ].map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-white">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-sales-accent/20">
-                    <ArrowUpRight className="h-3 w-3 text-sales-accent" />
-                  </div>
-                  {item}
-                </li>
-              ))}
-            </ul>
-
-            <button className="rounded-full border border-white/20 px-8 py-3 font-bold text-white transition-all hover:bg-white hover:text-black">
-              أكتشف كل المميزات
-            </button>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
     </section>
+  )
+}
+
+function NavItem({ icon, label, active = false, hasSub = false, badge = null }: { 
+  icon: React.ReactNode, 
+  label: string, 
+  active?: boolean, 
+  hasSub?: boolean,
+  badge?: string 
+}) {
+  return (
+    <div className={`
+      group flex cursor-pointer items-center justify-between rounded-xl px-4 py-3 transition-colors
+      ${active ? 'bg-sales-purple text-white' : 'text-white/40 hover:bg-white/5 hover:text-white'}
+    `}>
+      <div className="flex items-center gap-3">
+        {icon}
+        <span className="text-sm font-medium">{label}</span>
+      </div>
+      <div className="flex items-center gap-2">
+        {badge && <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-sales-accent px-1 text-[10px] font-bold text-white">{badge}</span>}
+        {hasSub && <ChevronDown size={14} className="opacity-40" />}
+      </div>
+    </div>
+  )
+}
+
+function MoreVerticalIcon() {
+  return (
+    <div className="flex cursor-pointer flex-col gap-0.5 opacity-40 hover:opacity-100 transition-opacity">
+      <div className="h-0.5 w-0.5 rounded-full bg-white" />
+      <div className="h-0.5 w-0.5 rounded-full bg-white" />
+      <div className="h-0.5 w-0.5 rounded-full bg-white" />
+    </div>
   )
 }
