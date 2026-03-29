@@ -10,14 +10,14 @@ import { Testimonials } from "@/components/Saleszawy/Testimonials"
 export default function Page() {
   return (
     <main className="min-h-screen scroll-smooth bg-sales-bg selection:bg-sales-accent/30">
-      <Hero />
-      <SocialProof />
-      <ExtendedFeatures />
-      <DashboardSection />
-      <SmartFeatures />
-      <Testimonials />
-      <PlanSection />
-      <FAQSection />
+      <div id="hero"><Hero /></div>
+      <div id="social-proof"><SocialProof /></div>
+      <div id="features"><ExtendedFeatures /></div>
+      <div id="dashboard"><DashboardSection /></div>
+      <div id="smart-features"><SmartFeatures /></div>
+      <div id="testimonials"><Testimonials /></div>
+      <div id="plans"><PlanSection /></div>
+      <div id="faq"><FAQSection /></div>
     </main>
   )
 }

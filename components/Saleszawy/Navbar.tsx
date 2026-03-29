@@ -2,19 +2,23 @@
 
 import React, { useRef } from "react"
 import Link from "next/link"
-import Image from "next/image"
-import { Search, ChevronDown } from "lucide-react"
+
+import { Search } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Container } from "@/components/ui/container"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
+import { Logo } from "@/components/Saleszawy/Logo"
 
 const navLinks = [
-  { name: "الرئيسية", href: "#", active: true },
-  { name: "المميزات", href: "#" },
-  { name: "خدماتنا", href: "#", hasDropdown: true },
-  { name: "عملائنا", href: "#" },
-  { name: "إتصل بنا", href: "#" },
+  { name: "الرئيسية", href: "#hero", active: true },
+  { name: "شركاؤنا", href: "#social-proof" },
+  { name: "المميزات", href: "#features" },
+  { name: "لوحة القيادة", href: "#dashboard" },
+  { name: "مميزات ذكية", href: "#smart-features" },
+  { name: "عملائنا", href: "#testimonials" },
+  { name: "الأسعار", href: "#plans" },
+  { name: "الأسئلة", href: "#faq" },
 ]
 
 export function Navbar() {
@@ -35,37 +39,26 @@ export function Navbar() {
   return (
     <nav
       ref={navRef}
-      className="fixed top-[20px] left-1/2 z-50 -translate-x-1/2 overflow-hidden rounded-t-[24px] bg-[url('/images/header-image.png')] bg-cover bg-center bg-no-repeat font-almarai selection:bg-sales-accent/30"
+      className="fixed top-[20px] left-1/2 z-50 container mx-auto w-full -translate-x-1/2 overflow-hidden rounded-t-[24px] bg-[url('/images/header-image.png')] bg-cover bg-center bg-no-repeat px-4 font-almarai selection:bg-sales-accent/30"
     >
       <Container className="flex min-h-[96px] items-center justify-between py-[16px]">
         {/* Logo Section (Far Right in RTL) */}
-        <div className="flex items-center gap-[12px]">
-          <Image
-            src="/images/salezawy.png"
-            alt="Saleszawy Logo"
-            width={157}
-            height={54}
-            className="rounded-[12px] object-contain"
-          />
-        </div>
+        <Logo />
 
         {/* Navigation Links (Center) */}
-        <ul className="hidden items-center gap-[32px] xl:flex">
+        <ul className="hidden items-center gap-[12px] xl:gap-[24px] xl:flex">
           {navLinks.map((link) => (
             <li key={link.name}>
               <Link
                 href={link.href}
                 className={cn(
-                  "flex items-center gap-[6px] text-[15px] transition-all duration-300 hover:text-white",
+                  "flex items-center gap-[6px] text-[14px] xl:text-[15px] transition-all duration-300 hover:text-white",
                   link.active
                     ? "font-bold text-white"
                     : "font-normal text-[#A1A1AA]"
                 )}
               >
                 {link.name}
-                {link.hasDropdown && (
-                  <ChevronDown className="h-[16px] w-[16px] opacity-70" />
-                )}
               </Link>
             </li>
           ))}
