@@ -1,17 +1,22 @@
 "use client"
 
 import React, { useRef, useState, useEffect } from "react"
-import { Users, Clock, TrendingUp } from "lucide-react"
 import { Container } from "@/components/ui/container"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel"
+import Autoplay from "embla-carousel-autoplay"
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger)
 }
 
 export function ExtendedFeatures() {
+  const plugin = useRef(
+    Autoplay({ delay: 3000, stopOnInteraction: true })
+  )
   const containerRef = useRef<HTMLDivElement>(null)
   const headerRef = useRef<HTMLHeadingElement>(null)
   const card1Ref = useRef<HTMLDivElement>(null)
@@ -235,12 +240,24 @@ export function ExtendedFeatures() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Card 1: New Customers / Response Time */}
-          <div 
-            ref={card1Ref}
-            className="bg-[#131217]/90 backdrop-blur-md border border-white/[0.04] rounded-[32px] p-6 lg:p-8 min-h-[420px] flex flex-col justify-between shadow-2xl transition-all duration-500 hover:-translate-y-3 hover:border-white/[0.1] hover:shadow-[0_20px_40px_-15px_rgba(14,165,233,0.15)] group relative overflow-hidden"
-          >
+        <Carousel
+          opts={{
+            align: "start",
+            loop: true,
+            breakpoints: {
+              '(min-width: 768px)': { active: false },
+            },
+          }}
+          plugins={[plugin.current]}
+          className="w-full"
+        >
+          <CarouselContent className="flex md:grid md:grid-cols-3 md:gap-8 md:ml-0">
+            <CarouselItem className="md:pl-0 md:basis-auto w-full shrink-0 basis-full">
+              {/* Card 1: New Customers / Response Time */}
+              <div 
+                ref={card1Ref}
+                className="bg-[#131217]/90 backdrop-blur-md border border-white/[0.04] rounded-[32px] p-6 lg:p-8 min-h-[420px] mx-4 md:mx-0 flex flex-col justify-between shadow-2xl transition-all duration-500 hover:-translate-y-3 hover:border-white/[0.1] hover:shadow-[0_20px_40px_-15px_rgba(14,165,233,0.15)] group relative overflow-hidden"
+              >
             {/* Soft background glow tied to hover */}
             <div className="absolute inset-0 bg-gradient-to-tr from-[#0ea5e9]/0 via-[#0ea5e9]/0 to-[#0ea5e9]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[32px]" />
 
@@ -300,13 +317,15 @@ export function ExtendedFeatures() {
                   تمنح المستخدم تجربة أكثر مرونة وراحة. من خلال هذه الخاصية يمكن لكل مستخدم ضبط النظام أو التطبيق بما يتناسب مع احتياجاته
                 </p>
             </div>
-          </div>
+              </div>
+            </CarouselItem>
 
-          {/* Card 2: Income Analysis */}
-          <div 
-            ref={card2Ref}
-            className="bg-[#131217]/90 backdrop-blur-md border border-white/[0.04] rounded-[32px] p-6 lg:p-8 min-h-[420px] flex flex-col justify-between shadow-2xl transition-all duration-500 hover:-translate-y-3 hover:border-white/[0.1] hover:shadow-[0_20px_40px_-15px_rgba(14,165,233,0.15)] group relative overflow-hidden"
-          >
+            <CarouselItem className="md:pl-0 md:basis-auto w-full shrink-0 basis-full">
+              {/* Card 2: Income Analysis */}
+              <div 
+                ref={card2Ref}
+                className="bg-[#131217]/90 backdrop-blur-md border border-white/[0.04] rounded-[32px] p-6 lg:p-8 min-h-[420px] mx-4 md:mx-0 flex flex-col justify-between shadow-2xl transition-all duration-500 hover:-translate-y-3 hover:border-white/[0.1] hover:shadow-[0_20px_40px_-15px_rgba(14,165,233,0.15)] group relative overflow-hidden"
+              >
             {/* Soft background glow tied to hover */}
             <div className="absolute inset-0 bg-gradient-to-tr from-[#0ea5e9]/0 via-[#0ea5e9]/0 to-[#0ea5e9]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[32px]" />
 
@@ -382,13 +401,15 @@ export function ExtendedFeatures() {
                   تمنح المستخدم تجربة أكثر مرونة وراحة. من خلال هذه الخاصية يمكن لكل مستخدم ضبط النظام أو التطبيق بما يتناسب مع احتياجاته
                 </p>
             </div>
-          </div>
+              </div>
+            </CarouselItem>
 
-          {/* Card 3: Over Time Line Chart */}
-          <div 
-            ref={card3Ref}
-            className="bg-[#131217]/90 backdrop-blur-md border border-white/[0.04] rounded-[32px] p-6 lg:p-8 min-h-[420px] flex flex-col justify-between shadow-2xl transition-all duration-500 hover:-translate-y-3 hover:border-white/[0.1] hover:shadow-[0_20px_40px_-15px_rgba(14,165,233,0.15)] group relative overflow-hidden"
-          >
+            <CarouselItem className="md:pl-0 md:basis-auto w-full shrink-0 basis-full">
+              {/* Card 3: Over Time Line Chart */}
+              <div 
+                ref={card3Ref}
+                className="bg-[#131217]/90 backdrop-blur-md border border-white/[0.04] rounded-[32px] p-6 lg:p-8 min-h-[420px] mx-4 md:mx-0 flex flex-col justify-between shadow-2xl transition-all duration-500 hover:-translate-y-3 hover:border-white/[0.1] hover:shadow-[0_20px_40px_-15px_rgba(14,165,233,0.15)] group relative overflow-hidden"
+              >
             {/* Soft background glow tied to hover */}
             <div className="absolute inset-0 bg-gradient-to-tr from-[#0ea5e9]/0 via-[#0ea5e9]/0 to-[#0ea5e9]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[32px]" />
 
@@ -471,8 +492,10 @@ export function ExtendedFeatures() {
                   تمنح المستخدم تجربة أكثر مرونة وراحة. من خلال هذه الخاصية يمكن لكل مستخدم ضبط النظام أو التطبيق بما يتناسب مع احتياجاته
                 </p>
             </div>
-          </div>
-        </div>
+              </div>
+            </CarouselItem>
+          </CarouselContent>
+        </Carousel>
       </Container>
     </section>
   )

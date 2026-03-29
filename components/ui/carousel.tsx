@@ -6,6 +6,7 @@ import useEmblaCarousel, {
 } from "embla-carousel-react"
 
 import { cn } from "@/lib/utils"
+import { Direction } from "radix-ui"
 import { Button } from "@/components/ui/button"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 
@@ -51,9 +52,11 @@ function Carousel({
   children,
   ...props
 }: React.ComponentProps<"div"> & CarouselProps) {
+  const dir = Direction.useDirection()
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...opts,
+      direction: dir,
       axis: orientation === "horizontal" ? "x" : "y",
     },
     plugins
@@ -119,6 +122,7 @@ function Carousel({
       }}
     >
       <div
+        dir={dir}
         onKeyDownCapture={handleKeyDown}
         className={cn("relative", className)}
         role="region"
@@ -187,7 +191,7 @@ function CarouselPrevious({
       className={cn(
         "absolute touch-manipulation rounded-full",
         orientation === "horizontal"
-          ? "top-1/2 -left-12 -translate-y-1/2"
+          ? "top-1/2 -left-12 -translate-y-1/2 rtl:rotate-180"
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
@@ -217,7 +221,7 @@ function CarouselNext({
       className={cn(
         "absolute touch-manipulation rounded-full",
         orientation === "horizontal"
-          ? "top-1/2 -right-12 -translate-y-1/2"
+          ? "top-1/2 -right-12 -translate-y-1/2 rtl:rotate-180"
           : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}

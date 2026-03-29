@@ -1,16 +1,10 @@
 "use client"
 
-import React, { useState, useRef } from "react"
+import React, { useState } from "react"
 import { Plus, Minus } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Container } from "@/components/ui/container"
-import gsap from "gsap"
-import { useGSAP } from "@gsap/react"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger)
-}
+import { useFAQAnimations } from "@/hooks/useFAQAnimations"
 
 const faqs = [
   {
@@ -47,38 +41,13 @@ const faqs = [
 
 export function FAQSection() {
   const [openId, setOpenId] = useState<string | null>("03")
-  const containerRef = useRef<HTMLDivElement>(null)
-  const itemsRef = useRef<HTMLDivElement>(null)
-
-  useGSAP(
-    () => {
-      if (itemsRef.current) {
-        const children = itemsRef.current.children
-        gsap.set(children, { y: 20, opacity: 0 })
-        gsap.to(children, {
-          y: 0,
-          opacity: 1,
-          duration: 0.5,
-          stagger: 0.1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: itemsRef.current,
-            start: "top bottom-=50",
-            toggleActions: "play none none none",
-            once: true,
-          },
-        })
-      }
-      ScrollTrigger.refresh()
-    },
-    { scope: containerRef }
-  )
+  const { containerRef, headerRef, listRef, addToRefs } = useFAQAnimations()
 
   return (
-    <section ref={containerRef} className="bg-sales-bg py-16 font-almarai">
+    <section ref={containerRef as React.RefObject<HTMLSelectElement | null>} className="bg-sales-bg py-16 font-almarai overflow-hidden">
       <Container className="space-y-12 md:space-y-16">
         {/* Header */}
-        <div className="space-y-4 text-center">
+        <div ref={headerRef} className="space-y-4 text-center min-h-[100px]">
           <h2 className="flex items-center justify-center gap-2 text-3xl font-extrabold text-white md:text-4xl">
             <span>أسئلة</span>
             <span>شائعة</span>
@@ -89,11 +58,12 @@ export function FAQSection() {
         </div>
 
         {/* FAQ Table Container */}
-        <div className="overflow-hidden rounded-xl border border-white/10 bg-white/[0.02]">
-          <div ref={itemsRef}>
+        <div ref={listRef} className="overflow-hidden rounded-xl border border-white/10 bg-white/[0.02] min-h-[400px]">
+          <div>
             {faqs.map((faq, index) => (
               <div
                 key={faq.id}
+                ref={addToRefs}
                 className={cn(
                   "group border-white/10 transition-all duration-300",
                   index !== faqs.length - 1 && "border-b"

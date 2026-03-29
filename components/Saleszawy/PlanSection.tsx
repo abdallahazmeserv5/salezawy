@@ -311,7 +311,7 @@ export function PlanSection() {
         </div>
 
         <div 
-          className="w-full overflow-hidden" 
+          className="w-full overflow-hidden py-[32px] -my-[32px]" 
           ref={(node) => {
             emblaRef(node)
             viewportRef.current = node

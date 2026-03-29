@@ -3,9 +3,10 @@
 import React, { useRef } from "react"
 import Link from "next/link"
 
-import { Search } from "lucide-react"
+import { Search, Menu } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Container } from "@/components/ui/container"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { Logo } from "@/components/Saleszawy/Logo"
@@ -39,7 +40,7 @@ export function Navbar() {
   return (
     <nav
       ref={navRef}
-      className="fixed top-[20px] left-1/2 z-50 container mx-auto w-full -translate-x-1/2 overflow-hidden rounded-t-[24px] bg-[url('/images/header-image.png')] bg-cover bg-center bg-no-repeat px-4 font-almarai selection:bg-sales-accent/30"
+      className="fixed top-[20px] left-1/2 z-50 container mx-auto w-[calc(100%-32px)] xl:w-full -translate-x-1/2 overflow-hidden rounded-[24px] 2xl:rounded-t-[24px] 2xl:rounded-b-none bg-[#18181B]/80 backdrop-blur-md 2xl:bg-transparent 2xl:backdrop-blur-none 2xl:bg-[url('/images/header-image.png')] bg-cover bg-center bg-no-repeat px-4 font-almarai selection:bg-sales-accent/30 border border-white/5 2xl:border-none"
     >
       <Container className="flex min-h-[96px] items-center justify-between py-[16px]">
         {/* Logo Section (Far Right in RTL) */}
@@ -66,7 +67,7 @@ export function Navbar() {
 
         {/* Actions: Search & Register (Left) */}
         <div className="flex items-center gap-[16px]">
-          <div className="relative hidden md:block">
+          <div className="relative hidden xl:block">
             <input
               type="text"
               placeholder="بحث ذكي..."
@@ -75,9 +76,47 @@ export function Navbar() {
             <Search className="absolute top-1/2 right-[12px] h-[16px] w-[16px] -translate-y-1/2 text-white/50" />
           </div>
 
-          <button className="flex h-[40px] items-center justify-center rounded-[10px] border border-white/10 bg-transparent px-[24px] text-[14px] font-medium text-white transition-all duration-300 hover:bg-white/5">
+          <button className="hidden sm:flex h-[40px] items-center justify-center rounded-[10px] border border-white/10 bg-transparent px-[24px] text-[14px] font-medium text-white transition-all duration-300 hover:bg-white/5">
             تسجيل
           </button>
+          
+          {/* Mobile Menu */}
+          <Sheet>
+            <SheetTrigger asChild>
+              <button className="xl:hidden flex h-[40px] w-[40px] items-center justify-center rounded-[10px] border border-white/10 bg-transparent text-white transition-all duration-300 hover:bg-white/5">
+                <Menu className="h-[20px] w-[20px]" />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[300px] border-white/10 bg-[#09090B] font-almarai sm:w-[400px]">
+              <div className="flex flex-col gap-6 py-6">
+                <Logo />
+                <ul className="flex flex-col gap-2">
+                  {navLinks.map((link) => (
+                    <li key={link.name}>
+                      <SheetTrigger asChild>
+                        <Link
+                          href={link.href}
+                          className={cn(
+                            "block rounded-md px-4 py-3 text-[16px] transition-all duration-300 hover:bg-white/5 hover:text-white",
+                            link.active
+                              ? "font-bold text-white bg-white/5"
+                              : "font-normal text-[#A1A1AA]"
+                          )}
+                        >
+                          {link.name}
+                        </Link>
+                      </SheetTrigger>
+                    </li>
+                  ))}
+                </ul>
+                <div className="flex flex-col gap-4 pt-4 border-t border-white/10">
+                  <button className="flex h-[40px] w-full items-center justify-center rounded-[10px] border border-white/10 bg-transparent px-[24px] text-[14px] font-medium text-white transition-all duration-300 hover:bg-white/5">
+                    تسجيل
+                  </button>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </Container>
     </nav>
