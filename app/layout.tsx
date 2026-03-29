@@ -3,10 +3,11 @@ import { Geist_Mono, Inter, Poppins, Almarai } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { DirectionProvider } from "@/components/ui/direction"
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
+import { Navbar } from "@/components/Saleszawy/Navbar"
+import { Footer } from "@/components/layout/Footer"
 
-
-const inter = Inter({subsets:['latin'],variable:'--font-sans'})
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 
 const poppins = Poppins({
   weight: ["400", "500", "600", "700", "800"],
@@ -47,7 +48,9 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <DirectionProvider dir="rtl">
+            <Navbar />
             {children}
+            <Footer />
           </DirectionProvider>
         </ThemeProvider>
       </body>

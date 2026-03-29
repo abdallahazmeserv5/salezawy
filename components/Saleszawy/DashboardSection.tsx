@@ -110,7 +110,7 @@ export function DashboardSection() {
   return (
     <section ref={containerRef} className="relative w-full overflow-hidden bg-[#0D0D11] py-16 font-almarai rtl text-right">
       {/* Mobile Bottom Navigation - Only visible on small screens */}
-      <div className="fixed bottom-0 left-0 z-50 flex w-full justify-around border-t border-white/10 bg-[#16161D]/80 p-3 backdrop-blur-xl lg:hidden">
+      <div className="fixed bottom-0 left-0 z-50 flex w-full justify-around border-t border-white/10 bg-[#16161D]/80 p-3 backdrop-blur-xl md:hidden">
         <MobileNavItem icon={<LayoutDashboard size={20} />} active={activeTab === "dashboard"} onClick={() => handleTabChange("dashboard")} />
         <MobileNavItem icon={<Users size={20} />} active={activeTab === "sales"} onClick={() => handleTabChange("sales")} />
         <MobileNavItem icon={<MessageSquare size={20} />} active={activeTab === "messages"} onClick={() => handleTabChange("messages")} />
@@ -123,39 +123,109 @@ export function DashboardSection() {
       </div>
 
       <Container className="relative z-10">
-        <div className="flex flex-col gap-6 lg:h-[800px] lg:flex-row">
+        <div className="flex flex-col gap-6 md:h-auto md:flex-row lg:h-[800px]">
+          {/* Sidebar Area (Now on the right in RTL) */}
+          <div 
+            ref={sidebarRef}
+            className="hidden md:block md:w-[240px] lg:w-[280px]"
+          >
+            <div className="sticky top-0 h-full space-y-8 rounded-[24px] border border-white/10 bg-[#16161D] p-6 shadow-2xl">
+              {/* Brand Logo */}
+              <div className="flex items-center gap-3 border-b border-white/10 pb-6">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sales-purple">
+                  <Settings className="h-6 w-6 text-white" />
+                </div>
+                <span className="text-xl font-black text-white tracking-widest">SERV5</span>
+              </div>
+
+              {/* Navigation */}
+              <nav className="space-y-2">
+                <NavItem 
+                  icon={<LayoutDashboard size={20} />} 
+                  label="لوحات التحكم" 
+                  active={activeTab === "dashboard"} 
+                  onClick={() => handleTabChange("dashboard")}
+                />
+                <NavItem 
+                  icon={<Users size={20} />} 
+                  label="المبيعات والعملاء" 
+                  hasSub 
+                  active={activeTab === "sales"} 
+                  onClick={() => handleTabChange("sales")}
+                />
+                <NavItem 
+                  icon={<MessageSquare size={20} />} 
+                  label="المحادثات والرسائل" 
+                  badge="١٢" 
+                  active={activeTab === "messages"} 
+                  onClick={() => handleTabChange("messages")}
+                />
+                <NavItem 
+                  icon={<Settings size={20} />} 
+                  label="الإعدادات العامة" 
+                  active={activeTab === "settings"} 
+                  onClick={() => handleTabChange("settings")}
+                />
+                <NavItem 
+                  icon={<Globe size={20} />} 
+                  label="التغطية والنشاط" 
+                  active={activeTab === "tracking"} 
+                  onClick={() => handleTabChange("tracking")}
+                />
+              </nav>
+
+              <div className="mt-12 space-y-4">
+                 <div className="rounded-2xl bg-sales-purple/10 p-4 border border-sales-purple/20">
+                    <p className="text-xs text-white/60 mb-2">استخدام النظام</p>
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-sm font-bold text-white">٨٥٪ من السعة</span>
+                    </div>
+                    <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                       <div className="h-full bg-sales-purple w-[85%]" />
+                    </div>
+                 </div>
+                  <button 
+                    onClick={() => handleTabChange("dashboard")}
+                    className="w-full rounded-xl bg-white px-4 py-3 text-sm font-bold text-black transition-transform hover:scale-[1.02] active:scale-[0.98]"
+                  >
+                    تطوير الخطة
+                  </button>
+              </div>
+            </div>
+          </div>
+
           {/* Main Content Area (Now on the left/center in RTL) */}
           <div 
             ref={mainContentRef} 
-            className="flex-1 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-4 custom-scrollbar"
+            className="flex-1 space-y-6 md:h-full md:overflow-y-auto md:pr-4 custom-scrollbar"
             style={{ 
               scrollbarWidth: 'thin',
               scrollbarColor: 'rgba(147, 51, 234, 0.3) transparent'
             }}
           >
             {/* Header Area */}
-            <div data-gsap="item" className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+            <div data-gsap="item" className="flex flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <div className="relative flex h-3 w-3">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sales-accent opacity-75" />
                   <span className="relative inline-flex h-3 w-3 rounded-full bg-sales-accent" />
                 </div>
-                <div>
-                  <h2 className="text-xl font-bold text-white/50">
+                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
+                  <h2 className="text-sm font-bold text-white/50 sm:text-base">
                     {activeTab === "dashboard" && "لوحة التقارير التحليلية"}
                     {activeTab === "sales" && "المبيعات والعملاء"}
                     {activeTab === "messages" && "المحادثات والرسائل"}
                     {activeTab === "settings" && "الإعدادات العامة"}
                     {activeTab === "tracking" && "التغطية والنشاط"}
                   </h2>
-                  <h1 className="text-3xl font-extrabold text-white">
+                  <h1 className="text-xl font-extrabold text-white sm:text-2xl">
                     {activeTab === "dashboard" ? "مرحباً بعودتك!" : "إدارة النظام"}
                   </h1>
-                  <p className="mt-1 text-xs text-white/30 flex items-center gap-2">
+                  <p className="text-[10px] text-white/30 flex items-center gap-1.5 sm:text-xs">
                     {isSyncing ? (
                       <span className="flex items-center gap-1 text-sales-accent">
-                        <span className="h-2 w-2 animate-spin rounded-full border-2 border-sales-accent border-t-transparent" />
-                        جاري المزامنة...
+                        <span className="h-1.5 w-1.5 animate-spin rounded-full border-2 border-sales-accent border-t-transparent" />
+                        جاري...
                       </span>
                     ) : (
                       `آخر تحديث: ${lastUpdated}`
@@ -163,21 +233,21 @@ export function DashboardSection() {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="relative">
-                  <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
+              <div className="flex items-center gap-2 sm:gap-4">
+                <div className="relative hidden xs:block">
+                  <Search className="absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-white/40" />
                   <input 
                     type="text" 
-                    placeholder="بحث عن عميل..." 
-                    className="w-full rounded-full border border-white/10 bg-white/5 py-2 pr-10 pl-4 text-sm text-white transition-all focus:border-sales-purple/50 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-sales-purple/20"
+                    placeholder="بحث..." 
+                    className="w-24 sm:w-40 md:w-full rounded-full border border-white/10 bg-white/5 py-1.5 pr-9 pl-3 text-xs text-white transition-all focus:border-sales-purple/50 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-sales-purple/20"
                   />
                 </div>
-                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70">
-                  <Calendar className="h-5 w-5" />
+                <div className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 sm:h-10 sm:w-10">
+                  <Calendar className="h-4 w-4 sm:h-5 sm:w-5" />
                 </div>
-                <div className="relative flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70">
-                  <Bell className="h-5 w-5" />
-                  <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-sales-accent" />
+                <div className="relative flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 sm:h-10 sm:w-10">
+                  <Bell className="h-4 w-4 sm:h-5 sm:w-5" />
+                  <span className="absolute top-1.5 right-1.5 h-1.5 w-1.5 rounded-full bg-sales-accent sm:top-2 sm:right-2 sm:h-2 sm:w-2" />
                 </div>
               </div>
             </div>
@@ -364,76 +434,6 @@ export function DashboardSection() {
             )}
           </div>
         </div>
-
-          {/* Sidebar Area (Now on the right in RTL) */}
-          <div 
-            ref={sidebarRef}
-            className="hidden lg:block lg:w-[280px]"
-          >
-            <div className="sticky top-0 h-full space-y-8 rounded-[24px] border border-white/10 bg-[#16161D] p-6 shadow-2xl">
-              {/* Brand Logo */}
-              <div className="flex items-center gap-3 border-b border-white/10 pb-6">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sales-purple">
-                  <Settings className="h-6 w-6 text-white" />
-                </div>
-                <span className="text-xl font-black text-white tracking-widest">SERV5</span>
-              </div>
-
-              {/* Navigation */}
-              <nav className="space-y-2">
-                <NavItem 
-                  icon={<LayoutDashboard size={20} />} 
-                  label="لوحات التحكم" 
-                  active={activeTab === "dashboard"} 
-                  onClick={() => handleTabChange("dashboard")}
-                />
-                <NavItem 
-                  icon={<Users size={20} />} 
-                  label="المبيعات والعملاء" 
-                  hasSub 
-                  active={activeTab === "sales"} 
-                  onClick={() => handleTabChange("sales")}
-                />
-                <NavItem 
-                  icon={<MessageSquare size={20} />} 
-                  label="المحادثات والرسائل" 
-                  badge="١٢" 
-                  active={activeTab === "messages"} 
-                  onClick={() => handleTabChange("messages")}
-                />
-                <NavItem 
-                  icon={<Settings size={20} />} 
-                  label="الإعدادات العامة" 
-                  active={activeTab === "settings"} 
-                  onClick={() => handleTabChange("settings")}
-                />
-                <NavItem 
-                  icon={<Globe size={20} />} 
-                  label="التغطية والنشاط" 
-                  active={activeTab === "tracking"} 
-                  onClick={() => handleTabChange("tracking")}
-                />
-              </nav>
-
-              <div className="mt-12 space-y-4">
-                 <div className="rounded-2xl bg-sales-purple/10 p-4 border border-sales-purple/20">
-                    <p className="text-xs text-white/60 mb-2">استخدام النظام</p>
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-sm font-bold text-white">٨٥٪ من السعة</span>
-                    </div>
-                    <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                       <div className="h-full bg-sales-purple w-[85%]" />
-                    </div>
-                 </div>
-                  <button 
-                    onClick={() => handleTabChange("dashboard")}
-                    className="w-full rounded-xl bg-white px-4 py-3 text-sm font-bold text-black transition-transform hover:scale-[1.02] active:scale-[0.98]"
-                  >
-                    تطوير الخطة
-                  </button>
-              </div>
-          </div>
-        </div>
       </Container>
     </section>
   )
@@ -490,4 +490,3 @@ function MoreVerticalIcon() {
     </div>
   )
 }
-

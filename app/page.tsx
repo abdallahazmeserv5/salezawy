@@ -12,7 +12,6 @@ import { Testimonials } from "@/components/Saleszawy/Testimonials"
 export default function Page() {
   return (
     <main className="min-h-screen scroll-smooth bg-sales-bg selection:bg-sales-accent/30">
-      <Navbar />
       <Hero />
       <SocialProof />
       <ExtendedFeatures />
@@ -21,7 +20,6 @@ export default function Page() {
       <Testimonials />
       <PlanSection />
       <FAQSection />
-      <Footer />
     </main>
   )
 }
