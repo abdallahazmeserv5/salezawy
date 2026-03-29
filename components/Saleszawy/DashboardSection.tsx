@@ -108,7 +108,7 @@ export function DashboardSection() {
   }, { scope: containerRef, dependencies: [activeTab] })
 
   return (
-    <section ref={containerRef} className="relative w-full overflow-hidden bg-[#0D0D11] py-16 font-almarai rtl text-right">
+    <section ref={containerRef} className="relative w-full overflow-hidden bg-[#0D0D11] py-16 font-almarai">
       {/* Mobile Bottom Navigation - Only visible on small screens */}
       <div className="fixed bottom-0 left-0 z-50 flex w-full justify-around border-t border-white/10 bg-[#16161D]/80 p-3 backdrop-blur-xl md:hidden">
         <MobileNavItem icon={<LayoutDashboard size={20} />} active={activeTab === "dashboard"} onClick={() => handleTabChange("dashboard")} />
@@ -129,7 +129,7 @@ export function DashboardSection() {
             ref={sidebarRef}
             className="hidden md:block md:w-[240px] lg:w-[280px]"
           >
-            <div className="sticky top-0 h-full space-y-8 rounded-[24px] border border-white/10 bg-[#16161D] p-6 shadow-2xl">
+            <div className="sticky top-0 h-fit space-y-8 rounded-[24px] border border-white/10 bg-[#16161D] p-6 shadow-2xl">
               {/* Brand Logo */}
               <div className="flex items-center gap-3 border-b border-white/10 pb-6">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sales-purple">
@@ -363,7 +363,7 @@ export function DashboardSection() {
                         <h3 className="text-lg font-bold text-white">أداء الموظفين والتغطية الدولية</h3>
                       </div>
                       <div className="overflow-x-auto">
-                        <table className="w-full text-right">
+                        <table className="w-full text-start">
                           <thead>
                             <tr className="border-b border-white/5 bg-white/5 text-sm text-white/40">
                               <th className="px-6 py-4 font-medium">اسم الموظف</th>

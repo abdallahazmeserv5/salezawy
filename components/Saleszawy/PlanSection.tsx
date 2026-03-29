@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef } from "react"
+import React, { useRef, useState } from "react"
 import { Check, Star } from "lucide-react"
 import { Container } from "@/components/ui/container"
 import gsap from "gsap"
@@ -13,56 +13,186 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger)
 }
 
-const tiers = [
-  {
-    name: "الخطة الماسية",
-    price: "50",
-    features: [
-      "50 عميل فقط",
-      "دعم فني مستمر",
-      "تقارير يومية وشهرية",
-      "6 شهور فقط",
-      "إستجابة عالية"
-    ],
-    highlight: false
-  },
-  {
-    name: "الخطة المقترحة",
-    price: "1,250",
-    description: "تمنح المستخدم تجربة أكثر مرونة وراحة، حيث من خلال هذه الخاصية يمكن لكل مستخدم ضبط النظام أو التطبيق بما يتناسب مع احتياجاته.",
-    features: [
-      "50 عميل فقط",
-      "دعم فني مستمر",
-      "تقارير يومية وشهرية",
-      "6 شهور فقط",
-      "إستجابة عالية"
-    ],
-    highlight: true,
-    badge: "الخطة المقترحة"
-  },
-  {
-    name: "الخطة الماسية",
-    price: "50",
-    features: [
-      "50 عميل فقط",
-      "دعم فني مستمر",
-      "تقارير يومية وشهرية",
-      "6 شهور فقط",
-      "إستجابة عالية"
-    ],
-    highlight: false
-  }
-]
+type Tier = {
+  name: string;
+  price: string;
+  description?: string;
+  features: string[];
+  highlight: boolean;
+  badge?: string;
+}
+
+const allTiers: Record<string, Tier[]> = {
+  "شامل": [
+    {
+      name: "الخطة الماسية",
+      price: "50",
+      features: [
+        "50 عميل فقط",
+        "دعم فني مستمر",
+        "تقارير يومية وشهرية",
+        "6 شهور فقط",
+        "إستجابة عالية"
+      ],
+      highlight: false
+    },
+    {
+      name: "الخطة المقترحة",
+      price: "1,250",
+      description: "تمنح المستخدم تجربة أكثر مرونة وراحة، حيث من خلال هذه الخاصية يمكن لكل مستخدم ضبط النظام أو التطبيق بما يتناسب مع احتياجاته.",
+      features: [
+        "منتجات غير محدودة",
+        "دعم فني مستمر",
+        "تقارير يومية وشهرية",
+        "تحديثات مجانية",
+        "إستجابة عالية"
+      ],
+      highlight: true,
+      badge: "الخطة المقترحة"
+    },
+    {
+      name: "الخطة المخصصة",
+      price: "5,000",
+      features: [
+        "غير محدود",
+        "دعم فني خاص",
+        "تقارير متقدمة",
+        "وصول للـ API",
+        "مدير حساب مخصص"
+      ],
+      highlight: false
+    }
+  ],
+  "متاجر": [
+    {
+      name: "البداية",
+      price: "35",
+      features: [
+        "مدفوعات إلكترونية",
+        "إدارة منتجات بسيطة",
+        "تقارير مبيعات",
+        "دعم عبر التذاكر"
+      ],
+      highlight: false
+    },
+    {
+      name: "متجر متكامل",
+      price: "900",
+      description: "كل أدوات الإدارة المطلوبة لنقل متجرك لمستوى أعلى بمرونة كبيرة.",
+      features: [
+        "إدارة مخزون متقدمة",
+        "ربط شركات الشحن",
+        "مدفوعات دولية",
+        "دعم فني مباشر"
+      ],
+      highlight: true,
+      badge: "الأكثر طلباً"
+    },
+    {
+      name: "المؤسسات",
+      price: "3,500",
+      features: [
+        "إدارة فروع المتجر",
+        "ربط مع ERP",
+        "تقارير ضريبية مفصلة",
+        "استضافة خاصة"
+      ],
+      highlight: false
+    }
+  ],
+  "مطاعم": [
+    {
+      name: "كافيه صغير",
+      price: "40",
+      features: [
+        "منيو إلكتروني QR",
+        "إدارة طاولات",
+        "نظام نقاط بيع بسيط",
+        "دعم فني سريع"
+      ],
+      highlight: false
+    },
+    {
+      name: "مطعم متكامل",
+      price: "1,100",
+      description: "إدارة مطعمك بكفاءة عالية، مع متابعة الطلبات وحجوزات الطاولات.",
+      features: [
+        "نظام KDS للمطبخ",
+        "ربط مع تطبيقات التوصيل",
+        "إدارة مخزون المكونات",
+        "نظام الولاء"
+      ],
+      highlight: true,
+      badge: "الخيار الأفضل"
+    },
+    {
+      name: "سلسلة مطاعم",
+      price: "4,000",
+      features: [
+        "إدارة فروع متعددة",
+        "مستودع مركزي",
+        "صلاحيات مستخدمين تفصيلية",
+        "تحليلات أداء متقدمة"
+      ],
+      highlight: false
+    }
+  ],
+  "شركات": [
+    {
+      name: "ستارت أب",
+      price: "80",
+      features: [
+        "نظام فواتير وعروض سعر",
+        "إدارة عملاء CRM",
+        "متابعة مهام فريق العمل",
+        "مستخدمين 2 فقط"
+      ],
+      highlight: false
+    },
+    {
+      name: "الأعمال",
+      price: "2,000",
+      description: "باقة مخصصة لتحسين سير العمل ومتابعة مؤشرات أداء الشركة بدقة.",
+      features: [
+        "نظام ERP متكامل",
+        "شؤون موظفين ورواتب",
+        "نقاط البيع والفروع",
+        "10 مستخدمين"
+      ],
+      highlight: true,
+      badge: "رائج جداً"
+    },
+    {
+      name: "الشركات الكبرى",
+      price: "6,500",
+      features: [
+        "تخصيص كامل",
+        "عدد مستخدمين غير محدود",
+        "إستضافة خوادم خاصة",
+        "دعم فني واستشارات إدارية"
+      ],
+      highlight: false
+    }
+  ]
+}
 
 export function PlanSection() {
   const containerRef = useRef<HTMLDivElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
   const viewportRef = useRef<HTMLDivElement>(null)
 
+  const [selectedCategory, setSelectedCategory] = useState("شامل")
+  const [selectedPeriod, setSelectedPeriod] = useState("سنوي")
+
+  const categories = ["شامل", "متاجر", "مطاعم", "شركات"]
+  const periods = [
+    { id: "شهري", label: "شهري" },
+    { id: "سنوي", label: "سنوي", discount: "وفر 20%" }
+  ]
+
   const [emblaRef] = useEmblaCarousel(
     { 
       loop: true, 
-      direction: 'rtl',
       align: 'start',
       slidesToScroll: 1,
       breakpoints: {
@@ -116,7 +246,7 @@ export function PlanSection() {
   }, { scope: containerRef })
 
   return (
-    <section ref={containerRef} className="bg-[#050505] py-[80px] font-almarai rtl text-right relative overflow-hidden">
+    <section ref={containerRef} className="bg-[#050505] py-[80px] font-almarai relative overflow-hidden">
       {/* Background Decorative Glows */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-[20%] right-[10%] w-[500px] h-[500px] bg-[#fb432c]/5 blur-[120px] rounded-full pointer-events-none" />
@@ -128,10 +258,56 @@ export function PlanSection() {
            ref={headerRef}
            className="text-center mb-[50px]"
         >
-          <h2 className="text-[36px] font-extrabold text-white mb-[12px]">إختر خطتك</h2>
-          <p className="text-white/40 text-[18px] font-medium">
+          <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-[12px]">إختر خطتك</h2>
+          <p className="text-white/40 text-[18px] md:text-[20px] font-medium">
             يمكنك إختيار خطتك الآن بمميزات تناسب فئتك
           </p>
+        </div>
+
+        {/* Tabs Section */}
+        <div className="flex flex-col items-center justify-center gap-[24px] mb-[40px] w-full z-20">
+          {/* Category Tabs */}
+          <div className="flex items-center p-[6px] bg-[#0f1116]/90 border border-white/5 rounded-full backdrop-blur-md shadow-inner">
+            {categories.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-[20px] md:px-[28px] py-[10px] rounded-full text-[14px] md:text-[15px] font-bold transition-all duration-300 ${
+                  selectedCategory === cat
+                    ? "bg-white/10 text-white shadow-[0_2px_20px_rgba(255,255,255,0.05)]"
+                    : "text-white/40 hover:text-white/70"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          {/* Period Tabs */}
+          <div className="flex items-center p-[6px] bg-[#0f1116]/90 border border-white/5 rounded-full backdrop-blur-md shadow-inner">
+            {periods.map(period => (
+              <button
+                key={period.id}
+                onClick={() => setSelectedPeriod(period.id)}
+                className={`px-[20px] md:px-[28px] py-[10px] rounded-full text-[14px] md:text-[15px] font-bold transition-all duration-300 flex items-center gap-[10px] ${
+                  selectedPeriod === period.id
+                    ? "bg-white text-sales-bg shadow-[0_4px_25px_rgba(255,255,255,0.2)]"
+                    : "text-white/40 hover:text-white/70"
+                }`}
+              >
+                {period.label}
+                {period.discount && (
+                  <span className={`text-[11px] px-[8px] py-[2px] rounded-full font-extrabold ${
+                    selectedPeriod === period.id 
+                      ? "bg-sales-bg/10 text-sales-bg" 
+                      : "bg-[#2dd4bf]/20 text-[#2dd4bf]"
+                  }`}>
+                    {period.discount}
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div 
@@ -141,10 +317,17 @@ export function PlanSection() {
             viewportRef.current = node
           }}
         >
-          <div className="flex touch-pan-y rtl">
-            {tiers.map((tier, i) => (
+          <div className="flex touch-pan-y">
+            {(allTiers[selectedCategory] || allTiers["شامل"]).map((tier, i) => {
+              const numPrice = parseInt(tier.price.replace(/,/g, ''));
+              let displayedPrice = tier.price;
+              if (!isNaN(numPrice) && selectedPeriod === "سنوي") {
+                displayedPrice = (numPrice * 12 * 0.8).toLocaleString("en-US");
+              }
+
+              return (
               <div 
-                key={i} 
+                key={`${selectedCategory}-${i}`} 
                 className="flex-[0_0_85%] min-w-0 pl-[24px] md:flex-[0_0_45%] lg:flex-[0_0_33.333%]"
               >
                 <div
@@ -178,10 +361,10 @@ export function PlanSection() {
                     </h3>
                     <div className="flex items-baseline gap-[12px]">
                        <span className={`text-[52px] font-extrabold leading-none ${tier.highlight ? 'text-white' : 'text-white/90'}`}>
-                        {tier.price}
+                        {displayedPrice}
                       </span>
                       <span className={`text-[15px] font-medium ${tier.highlight ? 'text-white/40' : 'text-white/30'}`}>
-                        ج.م / شهرياً
+                        {selectedPeriod === "سنوي" ? "ج.م / سنوياً" : "ج.م / شهرياً"}
                       </span>
                     </div>
                   </div>
@@ -223,7 +406,8 @@ export function PlanSection() {
                   </ul>
                 </div>
               </div>
-            ))}
+              )
+            })}
           </div>
         </div>
 

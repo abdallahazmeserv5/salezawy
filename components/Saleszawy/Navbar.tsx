@@ -2,6 +2,7 @@
 
 import React, { useRef } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Search, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Container } from "@/components/ui/container"
@@ -19,79 +20,73 @@ const navLinks = [
 export function Navbar() {
   const navRef = useRef<HTMLElement>(null)
 
-  useGSAP(() => {
-    gsap.from(navRef.current, {
-      y: -50,
-      opacity: 0,
-      duration: 0.8,
-      ease: "power2.out",
-    })
-  }, { scope: navRef })
+  useGSAP(
+    () => {
+      gsap.from(navRef.current, {
+        y: -50,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.out",
+      })
+    },
+    { scope: navRef }
+  )
 
   return (
-    <nav 
+    <nav
       ref={navRef}
-      className="fixed top-[20px] left-1/2 -translate-x-1/2 z-50 w-[95%] glass-nav rounded-[24px] py-[10px] font-almarai selection:bg-sales-accent/30"
+      className="fixed top-[20px] left-1/2 z-50 -translate-x-1/2 overflow-hidden rounded-t-[24px] bg-[url('/images/header-image.png')] bg-cover bg-center bg-no-repeat font-almarai selection:bg-sales-accent/30"
     >
-      <Container className="flex items-center justify-between h-full">
-      {/* Logo Section (Far Right in RTL) */}
-      <div className="flex items-center gap-[12px]">
-        <div className="w-[40px] h-[40px] bg-sales-accent rounded-[12px] flex items-center justify-center shadow-lg shadow-sales-accent/20">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="text-white"
-          >
-            <path
-              d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 4C14.21 4 16 5.79 16 8C16 10.21 14.21 12 12 12C9.79 12 8 10.21 8 8C8 5.79 9.79 4 12 4ZM12 20C9.33 20 7.01 18.67 5.6 16.63C5.64 14.5 9.87 13.33 12 13.33C14.13 13.33 18.36 14.5 18.4 16.63C16.99 18.67 14.67 20 12 20Z"
-              fill="currentColor"
-            />
-          </svg>
-        </div>
-        <div className="flex flex-col items-start leading-[1.2]">
-          <span className="text-white font-bold text-[20px] tracking-[-0.02em] font-poppins">Saleszawy</span>
-          <span className="text-white/60 text-[12px] font-medium tracking-wide">سيلزاوي</span>
-        </div>
-      </div>
-
-      {/* Navigation Links (Center) */}
-      <ul className="hidden xl:flex items-center gap-[20px]">
-        {navLinks.map((link) => (
-          <li key={link.name}>
-            <Link
-              href={link.href}
-              className={cn(
-                "text-[14px] font-medium transition-all duration-300 hover:text-sales-accent flex items-center gap-[6px]",
-                link.active ? "text-sales-accent font-bold" : "text-white/70"
-              )}
-            >
-              {link.name}
-              {link.hasDropdown && <ChevronDown className="w-[16px] h-[16px] opacity-40" />}
-            </Link>
-          </li>
-        ))}
-      </ul>
-
-      {/* Actions: Search & Register (Left) */}
-      <div className="flex items-center gap-[16px]">
-        <div className="relative hidden md:block">
-          <input
-            type="text"
-            placeholder="بحث ذكي..."
-            className="bg-white/[0.05] border border-white/10 rounded-full py-[8px] pr-[44px] pl-[16px] text-[13px] text-white placeholder:text-white/30 focus:outline-none focus:border-sales-accent/50 focus:bg-white/[0.08] w-[200px] transition-all duration-300"
+      <Container className="flex min-h-[96px] items-center justify-between py-[16px]">
+        {/* Logo Section (Far Right in RTL) */}
+        <div className="flex items-center gap-[12px]">
+          <Image
+            src="/images/salezawy.png"
+            alt="Saleszawy Logo"
+            width={157}
+            height={54}
+            className="rounded-[12px] object-contain"
           />
-          <Search className="absolute right-[16px] top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-white/40" />
         </div>
-        
-        <button className="bg-transparent border border-white/20 text-white text-[14px] font-bold px-[24px] py-[8px] rounded-[10px] hover:bg-white hover:text-black hover:border-white transition-all duration-300">
-          تسجيل
-        </button>
-      </div>
+
+        {/* Navigation Links (Center) */}
+        <ul className="hidden items-center gap-[32px] xl:flex">
+          {navLinks.map((link) => (
+            <li key={link.name}>
+              <Link
+                href={link.href}
+                className={cn(
+                  "flex items-center gap-[6px] text-[15px] transition-all duration-300 hover:text-white",
+                  link.active
+                    ? "font-bold text-white"
+                    : "font-normal text-[#A1A1AA]"
+                )}
+              >
+                {link.name}
+                {link.hasDropdown && (
+                  <ChevronDown className="h-[16px] w-[16px] opacity-70" />
+                )}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        {/* Actions: Search & Register (Left) */}
+        <div className="flex items-center gap-[16px]">
+          <div className="relative hidden md:block">
+            <input
+              type="text"
+              placeholder="بحث ذكي..."
+              className="h-[40px] w-[240px] rounded-[10px] border border-white/5 bg-[#18181B]/60 pr-[40px] pl-[16px] text-[13px] text-white backdrop-blur-md transition-all duration-300 placeholder:text-white/40 focus:border-white/20 focus:bg-[#18181B]/80 focus:outline-none"
+            />
+            <Search className="absolute top-1/2 right-[12px] h-[16px] w-[16px] -translate-y-1/2 text-white/50" />
+          </div>
+
+          <button className="flex h-[40px] items-center justify-center rounded-[10px] border border-white/10 bg-transparent px-[24px] text-[14px] font-medium text-white transition-all duration-300 hover:bg-white/5">
+            تسجيل
+          </button>
+        </div>
       </Container>
     </nav>
   )
 }
-

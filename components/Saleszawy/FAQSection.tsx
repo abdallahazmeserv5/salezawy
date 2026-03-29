@@ -67,7 +67,7 @@ export function FAQSection() {
   }, { scope: containerRef })
 
   return (
-    <section ref={containerRef} className="py-16 bg-sales-bg font-almarai rtl text-right">
+    <section ref={containerRef} className="py-16 bg-sales-bg font-almarai">
       <Container className="space-y-12 md:space-y-16">
         
         {/* Header */}
@@ -116,7 +116,7 @@ export function FAQSection() {
                   {/* Center: Question Text Column */}
                   <button 
                     onClick={() => setOpenId(openId === faq.id ? null : faq.id)}
-                    className="flex-1 px-4 md:px-8 py-4 text-right flex items-center justify-end"
+                    className="flex-1 px-4 md:px-8 py-4 flex items-center justify-end"
                   >
                     <span className={cn(
                       "text-base md:text-lg font-bold transition-colors",
@@ -150,7 +150,7 @@ export function FAQSection() {
                       {/* Content area */}
                       <div className="flex-1 px-4 md:px-8 pb-6 pt-2">
                         <div className="border-t border-white/5 pt-4">
-                          <p className="text-white/60 leading-relaxed text-sm md:text-base text-right">
+                          <p className="text-white/60 leading-relaxed text-sm md:text-base">
                             {faq.answer}
                           </p>
                         </div>

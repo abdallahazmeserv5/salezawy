@@ -67,7 +67,7 @@ export function Testimonials() {
   }, { dependencies: [active], scope: containerRef })
 
   return (
-    <section ref={containerRef} className="bg-sales-bg py-16 font-almarai rtl text-right relative overflow-hidden">
+    <section ref={containerRef} className="bg-sales-bg py-16 font-almarai relative overflow-hidden">
       <Container>
         <div 
           ref={cardRef}

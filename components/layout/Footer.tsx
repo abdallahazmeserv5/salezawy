@@ -13,11 +13,11 @@ export function Footer() {
       <div className="pointer-events-none absolute top-0 left-1/2 h-[300px] w-[1000px] -translate-x-1/2 rounded-full bg-[#C38CF5]/[0.03] blur-[120px]" />
       <div className="pointer-events-none absolute right-0 bottom-0 h-[500px] w-[500px] rounded-full bg-[#C38CF5]/[0.02] blur-[150px]" />
 
-      <Container className="relative z-10 py-8 md:py-12 px-6 md:px-16 lg:px-[120px]">
+      <Container className="relative z-10 py-8 md:py-12">
         {/* Main Content Grid */}
         <div className="flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-12">
           {/* 1. Branding Section (Far Right in RTL) */}
-          <div className="flex w-full lg:max-w-[320px] flex-col items-center lg:items-end text-center lg:text-right">
+          <div className="flex w-full lg:max-w-[320px] flex-col items-center lg:items-end text-center lg:text-start">
             <div className="mb-4 flex items-center gap-4">
               <div className="flex flex-col items-center lg:items-end">
                 <span className="font-josefin text-xl lg:text-2xl leading-tight font-bold tracking-tight text-white">
@@ -52,7 +52,7 @@ export function Footer() {
           {/* 2. Navigation Columns */}
           <div className="grid w-full grid-cols-2 lg:flex lg:w-auto lg:items-start gap-6 md:gap-8 lg:gap-20">
             {/* Quick Links */}
-            <div className="flex flex-col items-center lg:items-end text-center lg:text-right">
+            <div className="flex flex-col items-center lg:items-end text-center lg:text-start">
               <h4 className="mb-4 text-[14px] font-bold tracking-wide text-white uppercase">
                 روابط سريعة
               </h4>
@@ -73,7 +73,7 @@ export function Footer() {
             </div>
 
             {/* Legal */}
-            <div className="flex flex-col items-center lg:items-end text-center lg:text-right">
+            <div className="flex flex-col items-center lg:items-end text-center lg:text-start">
               <h4 className="mb-4 text-[14px] font-bold tracking-wide text-white uppercase">
                 سياساتنا
               </h4>
@@ -95,7 +95,7 @@ export function Footer() {
           </div>
 
           {/* 3. Newsletter Section (Far Left) */}
-          <div className="flex w-full lg:w-[280px] flex-col items-center lg:items-end text-center lg:text-right">
+          <div className="flex w-full lg:w-[280px] flex-col items-center lg:items-end text-center lg:text-start">
             <h4 className="mb-4 text-[14px] font-bold tracking-wide text-white uppercase">
               النشرة البريدية
             </h4>
@@ -107,7 +107,7 @@ export function Footer() {
                 <input
                   type="email"
                   placeholder="البريد الإلكتروني"
-                  className="h-10 w-full bg-transparent px-4 text-right text-xs text-white outline-none placeholder:text-white/20"
+                  className="h-10 w-full bg-transparent px-4 text-start text-xs text-white outline-none placeholder:text-white/20"
                 />
                 <button className="h-10 rounded-lg bg-[#C38CF5] px-5 text-[12px] font-bold whitespace-nowrap text-[#050505] shadow-lg transition-all duration-300 hover:bg-[#b070f0]">
                   إشتراك
@@ -120,7 +120,7 @@ export function Footer() {
         {/* Bottom Secondary Bar */}
         <div className="mt-10 md:mt-16 flex flex-col-reverse lg:flex-row items-center justify-between gap-6 border-t border-white/[0.05] pt-8">
           {/* Copyright */}
-          <p className="text-[10px] font-light text-white/20 text-center lg:text-right">
+          <p className="text-[10px] font-light text-white/20 text-center lg:text-start">
             © 2026 تم التطوير بواسطة{" "}
             <span className="text-white/40">سيرف 5</span>. جميع الحقوق محفوظة لـ{" "}
             <span className="text-white/40">سيلزاوي</span>

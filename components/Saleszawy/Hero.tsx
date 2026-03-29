@@ -114,7 +114,7 @@ export function Hero() {
   return (
     <section
       ref={containerRef}
-      className="rtl relative flex min-h-[700px] w-full flex-col items-center justify-center overflow-hidden bg-sales-bg pt-[100px] text-right font-almarai"
+      className="relative flex min-h-[700px] w-full flex-col items-center justify-center overflow-hidden bg-sales-bg pt-[100px] font-almarai"
     >
       {/* Background Glows (Approximate from image) */}
       <div className="absolute inset-0 z-0">
@@ -134,7 +134,7 @@ export function Hero() {
             <div className="h-[300px] w-[300px] rounded-full bg-linear-to-tr from-[#38BDF8]/20 to-[#C084FC]/20 blur-[80px]" />
           </div>
 
-          <div className="relative h-[424px] w-full mask-[radial-gradient(ellipse_70%_70%_at_50%_50%,#000_70%,transparent_100%)]">
+          <div className="relative aspect-square w-full max-w-[375px] lg:h-[450px] lg:w-[450px] lg:max-w-none">
             {/* Robot and Phone Illustration */}
             <Image
               src="/images/home/phone.webp"
@@ -149,7 +149,7 @@ export function Hero() {
               alt="AI Robot Assistant"
               width={300}
               height={300}
-              className="absolute left-1/2 top-[40%] z-10 -translate-x-1/2 -translate-y-1/2 object-contain drop-shadow-2xl"
+              className="absolute top-[40%] left-1/2 z-10 w-[60%] max-w-[225px] -translate-x-1/2 -translate-y-1/2 object-contain drop-shadow-2xl lg:max-w-none"
               priority
             />
           </div>
