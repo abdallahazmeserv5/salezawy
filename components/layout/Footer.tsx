@@ -152,8 +152,8 @@ export function Footer() {
 
         {/* Lower Bar */}
         <div className="flex flex-col-reverse items-center justify-between gap-6 py-8 md:flex-row">
-          <p className="text-[12px] text-white/20">
-            © 2026 تم التطوير بواسطة <span className="text-white/40">سيرف 5</span>. جميع الحقوق محفوظة لـ <span className="text-white/40 font-bold">سيلزاوي</span>
+          <p className="text-[13px] text-white/50">
+            © 2026 تم التطوير بواسطة <span className="text-white/80">سيرف 5</span>. جميع الحقوق محفوظة لـ <span className="text-white/80 font-bold">سيلزاوي</span>
           </p>
           
           <div className="flex items-center gap-8">
