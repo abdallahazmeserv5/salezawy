@@ -7,6 +7,7 @@ import { Container } from "@/components/ui/container"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { MagneticButton } from "@/components/ui/magnetic-button"
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger)
@@ -20,10 +21,27 @@ export function Hero() {
   const pRef = useRef<HTMLParagraphElement>(null)
   const btnRef = useRef<HTMLDivElement>(null)
   const imageRef = useRef<HTMLDivElement>(null)
+  const glow1Ref = useRef<HTMLDivElement>(null)
+  const glow2Ref = useRef<HTMLDivElement>(null)
+  const glow3Ref = useRef<HTMLDivElement>(null)
 
   useGSAP(
     () => {
-      // Initial states (Fail-safe: only hidden if JS runs)
+      // Mouse move parallax
+      const handleMouseMove = (e: MouseEvent) => {
+        const { clientX, clientY } = e
+        const xPos = (clientX / window.innerWidth - 0.5) * 2
+        const yPos = (clientY / window.innerHeight - 0.5) * 2
+
+        gsap.to(glow1Ref.current, { x: xPos * 30, y: yPos * 30, duration: 2, ease: "power2.out" })
+        gsap.to(glow2Ref.current, { x: xPos * -40, y: yPos * -40, duration: 2.5, ease: "power2.out" })
+        gsap.to(glow3Ref.current, { x: xPos * 20, y: yPos * 20, duration: 1.5, ease: "power2.out" })
+        gsap.to(imageRef.current, { rotateY: xPos * 5, rotateX: yPos * -5, duration: 2, ease: "power2.out" })
+      }
+
+      window.addEventListener("mousemove", handleMouseMove)
+
+      // Initial states
       gsap.set(
         [
           textRef.current,
@@ -37,76 +55,92 @@ export function Hero() {
           opacity: 0,
         }
       )
-      gsap.set([h1Ref.current, h2Ref.current, btnRef.current], { y: 20 })
-      gsap.set(textRef.current, { x: 50 })
-      gsap.set(imageRef.current, { scale: 0.95 })
+      gsap.set([h1Ref.current, h2Ref.current, btnRef.current], { y: 30 })
+      gsap.set(textRef.current, { x: 30 })
+      gsap.set(imageRef.current, { scale: 0.9, rotateY: 10 })
 
       const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 95%",
-          toggleActions: "play none none none",
-        },
+        delay: 0.2
       })
 
       tl.to(textRef.current, {
         opacity: 1,
         x: 0,
-        duration: 0.8,
-        ease: "power2.out",
+        duration: 1,
+        ease: "power3.out",
       })
-        .to(
-          h1Ref.current,
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.5,
-            ease: "power2.out",
-          },
-          "-=0.6"
-        )
-        .to(
-          h2Ref.current,
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.5,
-            ease: "power2.out",
-          },
-          "-=0.4"
-        )
-        .to(
-          pRef.current,
-          {
-            opacity: 1,
-            duration: 0.6,
-            ease: "power2.out",
-          },
-          "-=0.3"
-        )
-        .to(
-          btnRef.current,
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.5,
-            ease: "power2.out",
-          },
-          "-=0.2"
-        )
+      .to(
+        h1Ref.current,
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power3.out",
+        },
+        "-=0.7"
+      )
+      .to(
+        h2Ref.current,
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power3.out",
+        },
+        "-=0.6"
+      )
+      .to(
+        pRef.current,
+        {
+          opacity: 1,
+          duration: 1,
+          ease: "power2.out",
+        },
+        "-=0.5"
+      )
+      .to(
+        btnRef.current,
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "back.out(1.7)",
+        },
+        "-=0.4"
+      )
 
       gsap.to(imageRef.current, {
         opacity: 1,
         scale: 1,
-        duration: 1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 95%",
-        },
+        rotateY: 0,
+        duration: 1.5,
+        ease: "power4.out",
       })
 
-      ScrollTrigger.refresh()
+      // Floating animation for images
+      gsap.to(imageRef.current, {
+        y: -20,
+        duration: 3,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+      })
+
+      // Background floating shapes
+      gsap.to(".floating-shape", {
+        y: "random(-20, 20)",
+        x: "random(-20, 20)",
+        rotation: "random(-15, 15)",
+        duration: "random(3, 5)",
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        stagger: 0.2
+      })
+
+      return () => {
+        window.removeEventListener("mousemove", handleMouseMove)
+      }
     },
     { scope: containerRef }
   )
@@ -116,11 +150,16 @@ export function Hero() {
       ref={containerRef}
       className="relative flex min-h-[600px] w-full flex-col items-center justify-center overflow-hidden bg-sales-bg pt-[40px] font-almarai md:pt-[60px]"
     >
-      {/* Background Glows (Approximate from image) */}
-      <div className="absolute inset-0 z-0">
-        <div className="pointer-events-none absolute top-[10%] left-[5%] h-[600px] w-[600px] rounded-full bg-[#fb432c]/5 blur-[120px]" />
-        <div className="pointer-events-none absolute right-[10%] bottom-[15%] h-[500px] w-[500px] rounded-full bg-[#27213b]/20 blur-[150px]" />
-        <div className="pointer-events-none absolute top-[30%] right-[15%] h-[400px] w-[400px] rounded-full bg-[#0ea5e9]/10 blur-[100px]" />
+      {/* Background Glows & Floating Elements */}
+      <div className="absolute inset-0 z-0 select-none">
+        <div ref={glow1Ref} className="pointer-events-none absolute top-[10%] left-[5%] h-[600px] w-[600px] rounded-full bg-sales-purple/10 blur-[120px]" />
+        <div ref={glow2Ref} className="pointer-events-none absolute right-[10%] bottom-[15%] h-[500px] w-[500px] rounded-full bg-sales-accent/10 blur-[150px]" />
+        <div ref={glow3Ref} className="pointer-events-none absolute top-[30%] right-[15%] h-[400px] w-[400px] rounded-full bg-sales-primary/10 blur-[100px]" />
+        
+        {/* Decorative Floating Shapes */}
+        <div className="floating-shape absolute top-1/4 left-1/3 h-8 w-8 rounded-lg bg-sales-purple/20 backdrop-blur-sm" />
+        <div className="floating-shape absolute bottom-1/3 right-1/4 h-12 w-12 rounded-full bg-sales-accent/10 backdrop-blur-sm" />
+        <div className="floating-shape absolute top-1/2 right-[10%] h-6 w-6 rotate-45 bg-sales-primary/20 backdrop-blur-sm" />
       </div>
 
       <Container className="relative z-10 flex flex-col items-center justify-between gap-[40px] lg:flex-row">
@@ -163,7 +202,7 @@ export function Hero() {
                 ref={h1Ref}
                 className="text-[32px] leading-[1.1] font-extrabold text-white sm:text-[40px] md:text-[50px] lg:text-[64px]"
               >
-                <span className="bg-linear-to-l from-[#C084FC] via-[#38BDF8] to-[#2DD4BF] bg-clip-text text-transparent">
+                <span className="bg-linear-to-l from-sales-purple via-[#38BDF8] to-sales-accent bg-clip-text text-transparent">
                   مساعد AI ذكي
                 </span>{" "}
                 للمبيعات
@@ -173,7 +212,7 @@ export function Hero() {
                 ref={h2Ref}
                 className="text-[24px] leading-tight font-bold text-white sm:text-[28px] md:text-[36px] lg:text-[48px]"
               >
-                يتولي عميلك بشكل كامل
+                يتولى عميلك بشكل كامل
               </h2>
             </div>
 
@@ -185,12 +224,18 @@ export function Hero() {
               سيلهي القارئ عن التركيز على الشكل الخارجي للنص.
             </p>
 
-            <div ref={btnRef} className="pt-[20px]">
-              <button className="group relative flex items-center gap-[12px] overflow-hidden rounded-[14px] border border-[#fb432c]/30 bg-transparent px-[36px] py-[14px] font-bold text-white transition-all hover:border-[#fb432c]/60">
-                <div className="absolute inset-0 bg-linear-to-r from-[#fb432c]/10 to-transparent opacity-50 transition-opacity group-hover:opacity-100" />
-                <span className="relative z-10 text-[18px]">بدأ التجــربة</span>
-                <ArrowRight className="relative z-10 h-[20px] w-[20px] transform transition-transform group-hover:-translate-x-[4px]" />
-              </button>
+            <div ref={btnRef} className="pt-[20px] flex gap-4">
+              <MagneticButton>
+                <button className="group relative flex items-center gap-[12px] overflow-hidden rounded-[14px] bg-white px-[32px] py-[14px] font-bold text-black transition-all hover:bg-white/90 shadow-[0_10px_40px_rgba(255,255,255,0.15)]">
+                  <span className="relative z-10 text-[16px]">ابدأ التجربة مجاناً</span>
+                  <ArrowRight className="relative z-10 h-[18px] w-[18px] transform transition-transform group-hover:-translate-x-[4px]" />
+                </button>
+              </MagneticButton>
+              <MagneticButton>
+                <button className="group relative flex items-center gap-[12px] overflow-hidden rounded-[14px] border border-white/10 bg-white/5 px-[32px] py-[14px] font-bold text-white transition-all hover:bg-white/10">
+                  <span className="relative z-10 text-[16px]">تواصل معنا</span>
+                </button>
+              </MagneticButton>
             </div>
           </div>
         </div>

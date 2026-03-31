@@ -18,6 +18,8 @@ import { Container } from "@/components/ui/container"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { TiltCard } from "@/components/ui/tilt-card"
+import { MagneticButton } from "@/components/ui/magnetic-button"
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger)
@@ -215,12 +217,14 @@ export function DashboardSection() {
                     <div className="h-full w-[85%] bg-sales-purple" />
                   </div>
                 </div>
-                <button
-                  onClick={() => handleTabChange("dashboard")}
-                  className="w-full rounded-xl bg-white px-4 py-3 text-sm font-bold text-black transition-transform hover:scale-[1.02] active:scale-[0.98]"
-                >
-                  تطوير الخطة
-                </button>
+                <MagneticButton className="w-full">
+                  <button
+                    onClick={() => handleTabChange("dashboard")}
+                    className="w-full rounded-xl bg-white px-4 py-3 text-sm font-bold text-black transition-transform active:scale-[0.98]"
+                  >
+                    تطوير الخطة
+                  </button>
+                </MagneticButton>
               </div>
             </div>
           </div>
@@ -300,189 +304,195 @@ export function DashboardSection() {
                     {/* Dashboard Stats Grid - Horizontal Scroll on Mobile */}
                     <div className="custom-scrollbar-hide flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:pb-0">
                       {/* Customer Status Card */}
-                      <div
-                        data-gsap="item"
-                        className="group relative w-[85vw] shrink-0 snap-center rounded-[24px] border border-white/10 bg-[#16161D] p-5 shadow-2xl transition-all duration-500 hover:border-sales-purple/50 hover:bg-[#1a1a24] hover:shadow-sales-purple/10 md:w-[45vw] lg:w-auto"
-                      >
-                        <div className="absolute inset-0 rounded-[24px] bg-linear-to-br from-sales-purple/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                        <div className="relative z-10 mb-6 flex items-center justify-between">
-                          <h3 className="text-lg font-bold text-white transition-colors group-hover:text-sales-purple">
-                            حالة العملاء
-                          </h3>
-                          <MoreVerticalIcon />
-                        </div>
-                        <div className="space-y-4">
-                          {[
-                            {
-                              label: "Closed_won",
-                              count: 9,
-                              color: "bg-[#00C2A7]",
-                            },
-                            {
-                              label: "Contacted",
-                              count: 46,
-                              color: "bg-sales-purple",
-                            },
-                            { label: "New", count: 2033, color: "bg-white/20" },
-                            {
-                              label: "Attempt to Contact",
-                              count: 12,
-                              color: "bg-sales-accent",
-                            },
-                          ].map((status, i) => (
-                            <div
-                              key={i}
-                              className="flex items-center justify-between"
-                            >
-                              <div className="flex items-center gap-3">
-                                <div
-                                  className={`h-2 w-2 rounded-full ${status.color}`}
-                                />
-                                <span className="text-sm text-white/60">
-                                  {status.label}
+                      <TiltCard className="w-[85vw] shrink-0 snap-center md:w-[45vw] lg:w-auto">
+                        <div
+                          data-gsap="item"
+                          className="group relative h-full rounded-[24px] border border-white/10 bg-sales-bg p-5 shadow-2xl transition-all duration-500 hover:border-sales-purple/50 hover:bg-[#1a1a24] hover:shadow-sales-purple/10"
+                        >
+                          <div className="absolute inset-0 rounded-[24px] bg-linear-to-br from-sales-purple/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 placeholder:pointer-events-none" />
+                          <div className="relative z-10 mb-6 flex items-center justify-between">
+                            <h3 className="text-lg font-bold text-white transition-colors group-hover:text-sales-purple">
+                              حالة العملاء
+                            </h3>
+                            <MoreVerticalIcon />
+                          </div>
+                          <div className="space-y-4">
+                            {[
+                              {
+                                label: "Closed_won",
+                                count: 9,
+                                color: "bg-[#00C2A7]",
+                              },
+                              {
+                                label: "Contacted",
+                                count: 46,
+                                color: "bg-sales-purple",
+                              },
+                              { label: "New", count: 2033, color: "bg-white/20" },
+                              {
+                                label: "Attempt to Contact",
+                                count: 12,
+                                color: "bg-sales-accent",
+                              },
+                            ].map((status, i) => (
+                              <div
+                                key={i}
+                                className="flex items-center justify-between"
+                              >
+                                <div className="flex items-center gap-3">
+                                  <div
+                                    className={`h-2 w-2 rounded-full ${status.color}`}
+                                  />
+                                  <span className="text-sm text-white/60">
+                                    {status.label}
+                                  </span>
+                                </div>
+                                <span className="text-sm font-bold text-white">
+                                  {status.count}
                                 </span>
                               </div>
-                              <span className="text-sm font-bold text-white">
-                                {status.count}
-                              </span>
+                            ))}
+                          </div>
+                          <div className="mt-8">
+                            <div className="flex h-2 w-full overflow-hidden rounded-full bg-white/5">
+                              <div
+                                className="h-full bg-[#00C2A7]"
+                                style={{ width: "15%" }}
+                              />
+                              <div
+                                className="h-full bg-sales-purple"
+                                style={{ width: "35%" }}
+                              />
+                              <div
+                                className="h-full bg-white/20"
+                                style={{ width: "40%" }}
+                              />
+                              <div
+                                className="h-full bg-sales-accent"
+                                style={{ width: "10%" }}
+                              />
                             </div>
-                          ))}
-                        </div>
-                        <div className="mt-8">
-                          <div className="flex h-2 w-full overflow-hidden rounded-full bg-white/5">
-                            <div
-                              className="h-full bg-[#00C2A7]"
-                              style={{ width: "15%" }}
-                            />
-                            <div
-                              className="h-full bg-sales-purple"
-                              style={{ width: "35%" }}
-                            />
-                            <div
-                              className="h-full bg-white/20"
-                              style={{ width: "40%" }}
-                            />
-                            <div
-                              className="h-full bg-sales-accent"
-                              style={{ width: "10%" }}
-                            />
                           </div>
                         </div>
-                      </div>
+                      </TiltCard>
 
                       {/* Communication by Country */}
-                      <div
-                        data-gsap="item"
-                        className="group relative w-[85vw] shrink-0 snap-center rounded-[24px] border border-white/10 bg-[#16161D] p-5 shadow-2xl transition-all duration-500 hover:border-[#00C2A7]/50 hover:bg-[#161f1d] hover:shadow-[#00C2A7]/10 md:w-[45vw] lg:w-auto"
-                      >
-                        <div className="absolute inset-0 rounded-[24px] bg-linear-to-br from-[#00C2A7]/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                        <div className="relative z-10 mb-6 flex items-center justify-between">
-                          <h3 className="text-lg font-bold text-white transition-colors group-hover:text-[#00C2A7]">
-                            التواصل حسب الدولة (%)
-                          </h3>
-                          <Globe className="h-5 w-5 text-white/40 transition-colors group-hover:text-[#00C2A7]" />
-                        </div>
-                        <div className="space-y-6">
-                          {[
-                            {
-                              country: "Other",
-                              percentage: "90.91%",
-                              color: "#00C2A7",
-                            },
-                            {
-                              country: "Jordan",
-                              percentage: "9.09%",
-                              color: "#00C2A7",
-                            },
-                            {
-                              country: "Saudi Arabia",
-                              percentage: "0%",
-                              color: "#00C2A7",
-                            },
-                          ].map((item, i) => (
-                            <div key={i} className="space-y-2">
-                              <div className="flex justify-between text-sm">
-                                <span className="text-white/60">
-                                  {item.country}
-                                </span>
-                                <span className="font-bold text-white">
-                                  {item.percentage}
-                                </span>
+                      <TiltCard className="w-[85vw] shrink-0 snap-center md:w-[45vw] lg:w-auto">
+                        <div
+                          data-gsap="item"
+                          className="group relative h-full rounded-[24px] border border-white/10 bg-[#16161D] p-5 shadow-2xl transition-all duration-500 hover:border-[#00C2A7]/50 hover:bg-[#161f1d] hover:shadow-[#00C2A7]/10"
+                        >
+                          <div className="absolute inset-0 rounded-[24px] bg-linear-to-br from-[#00C2A7]/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
+                          <div className="relative z-10 mb-6 flex items-center justify-between">
+                            <h3 className="text-lg font-bold text-white transition-colors group-hover:text-[#00C2A7]">
+                              التواصل حسب الدولة (%)
+                            </h3>
+                            <Globe className="h-5 w-5 text-white/40 transition-colors group-hover:text-[#00C2A7]" />
+                          </div>
+                          <div className="space-y-6">
+                            {[
+                              {
+                                country: "Other",
+                                percentage: "90.91%",
+                                color: "#00C2A7",
+                              },
+                              {
+                                country: "Jordan",
+                                percentage: "9.09%",
+                                color: "#00C2A7",
+                              },
+                              {
+                                country: "Saudi Arabia",
+                                percentage: "0%",
+                                color: "#00C2A7",
+                              },
+                            ].map((item, i) => (
+                              <div key={i} className="space-y-2">
+                                <div className="flex justify-between text-sm">
+                                  <span className="text-white/60">
+                                    {item.country}
+                                  </span>
+                                  <span className="font-bold text-white">
+                                    {item.percentage}
+                                  </span>
+                                </div>
+                                <div className="h-1.5 w-full rounded-full bg-white/5">
+                                  <div
+                                    data-gsap="progress"
+                                    data-width={item.percentage}
+                                    className="h-full rounded-full bg-[#00C2A7]"
+                                  />
+                                </div>
                               </div>
-                              <div className="h-1.5 w-full rounded-full bg-white/5">
-                                <div
-                                  data-gsap="progress"
-                                  data-width={item.percentage}
-                                  className="h-full rounded-full bg-[#00C2A7]"
-                                />
-                              </div>
-                            </div>
-                          ))}
+                            ))}
+                          </div>
                         </div>
-                      </div>
+                      </TiltCard>
 
                       {/* Recent Activities */}
-                      <div
-                        data-gsap="item"
-                        className="group relative w-[85vw] shrink-0 snap-center rounded-[24px] border border-white/10 bg-[#16161D] p-5 shadow-2xl transition-all duration-500 hover:border-sales-accent/50 hover:bg-[#1f1a16] hover:shadow-sales-accent/10 md:w-[45vw] lg:w-auto"
-                      >
-                        <div className="absolute inset-0 rounded-[24px] bg-linear-to-br from-sales-accent/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                        <div className="relative z-10 mb-6 flex items-center justify-between">
-                          <h3 className="text-lg font-bold text-white transition-colors group-hover:text-sales-accent">
-                            الفواتير والصفقات
-                          </h3>
-                          <CreditCard className="h-5 w-5 text-white/40 transition-colors group-hover:text-sales-accent" />
-                        </div>
-                        <div className="space-y-4">
-                          {[
-                            {
-                              user: "محمد العوضي",
-                              action: "صفقة جديدة مكتملة",
-                              time: "منذ دقيقتين",
-                              value: "+$1,200",
-                            },
-                            {
-                              user: "AI Bot Sales",
-                              action: "تحديث حالة عميل",
-                              time: "منذ ساعة",
-                              value: null,
-                            },
-                            {
-                              user: "سارة محمود",
-                              action: "تم إصدار فاتورة",
-                              time: "منذ ٣ ساعات",
-                              value: "$450",
-                            },
-                          ].map((activity, i) => (
-                            <div
-                              key={i}
-                              className="group flex items-center gap-3"
-                            >
-                              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/5 text-white/60">
-                                <User className="h-5 w-5" />
-                              </div>
-                              <div className="flex flex-1 flex-col overflow-hidden">
-                                <span className="truncate text-sm font-bold text-white">
-                                  {activity.user}
-                                </span>
-                                <span className="truncate text-xs text-white/40">
-                                  {activity.action}
-                                </span>
-                              </div>
-                              <div className="flex flex-col items-end whitespace-nowrap">
-                                {activity.value && (
-                                  <span className="text-sm font-bold text-[#00C2A7]">
-                                    {activity.value}
+                      <TiltCard className="w-[85vw] shrink-0 snap-center md:w-[45vw] lg:w-auto">
+                        <div
+                          data-gsap="item"
+                          className="group relative h-full rounded-[24px] border border-white/10 bg-[#16161D] p-5 shadow-2xl transition-all duration-500 hover:border-sales-accent/50 hover:bg-[#1f1a16] hover:shadow-sales-accent/10"
+                        >
+                          <div className="absolute inset-0 rounded-[24px] bg-linear-to-br from-sales-accent/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
+                          <div className="relative z-10 mb-6 flex items-center justify-between">
+                            <h3 className="text-lg font-bold text-white transition-colors group-hover:text-sales-accent">
+                              الفواتير والصفقات
+                            </h3>
+                            <CreditCard className="h-5 w-5 text-white/40 transition-colors group-hover:text-sales-accent" />
+                          </div>
+                          <div className="space-y-4">
+                            {[
+                              {
+                                user: "محمد العوضي",
+                                action: "صفقة جديدة مكتملة",
+                                time: "منذ دقيقتين",
+                                value: "+$1,200",
+                              },
+                              {
+                                user: "AI Bot Sales",
+                                action: "تحديث حالة عميل",
+                                time: "منذ ساعة",
+                                value: null,
+                              },
+                              {
+                                user: "سارة محمود",
+                                action: "تم إصدار فاتورة",
+                                time: "منذ ٣ ساعات",
+                                value: "$450",
+                              },
+                            ].map((activity, i) => (
+                              <div
+                                key={i}
+                                className="group flex items-center gap-3"
+                              >
+                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/5 text-white/60">
+                                  <User className="h-5 w-5" />
+                                </div>
+                                <div className="flex flex-1 flex-col overflow-hidden">
+                                  <span className="truncate text-sm font-bold text-white">
+                                    {activity.user}
                                   </span>
-                                )}
-                                <span className="text-[10px] text-white/30">
-                                  {activity.time}
-                                </span>
+                                  <span className="truncate text-xs text-white/40">
+                                    {activity.action}
+                                  </span>
+                                </div>
+                                <div className="flex flex-col items-end whitespace-nowrap">
+                                  {activity.value && (
+                                    <span className="text-sm font-bold text-[#00C2A7]">
+                                      {activity.value}
+                                    </span>
+                                  )}
+                                  <span className="text-[10px] text-white/30">
+                                    {activity.time}
+                                  </span>
+                                </div>
                               </div>
-                            </div>
-                          ))}
+                            ))}
+                          </div>
                         </div>
-                      </div>
+                      </TiltCard>
                     </div>
 
                     {/* Performance Table */}
@@ -545,7 +555,7 @@ export function DashboardSection() {
                             ].map((row, i) => (
                               <tr
                                 key={i}
-                                className="hover:bg-white-[0.02] text-sm text-white/80 transition-colors"
+                                className="group hover:bg-white/5 text-sm text-white/80 transition-all duration-300"
                               >
                                 <td className="px-3 py-3 sm:px-6 sm:py-4">
                                   <div className="flex items-center gap-3">

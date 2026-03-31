@@ -8,6 +8,8 @@ import { useGSAP } from "@gsap/react"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import useEmblaCarousel from "embla-carousel-react"
 import AutoScroll from "embla-carousel-auto-scroll"
+import { TiltCard } from "@/components/ui/tilt-card"
+import { MagneticButton } from "@/components/ui/magnetic-button"
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger)
@@ -257,7 +259,7 @@ export function PlanSection() {
   return (
     <section
       ref={containerRef}
-      className="relative overflow-hidden bg-[#050505] py-[30px] font-almarai"
+      className="relative overflow-hidden bg-sales-bg py-[30px] font-almarai"
     >
       {/* Background Decorative Glows */}
       <div className="absolute inset-0 z-0">
@@ -339,7 +341,7 @@ export function PlanSection() {
               }
 
               return (
-                <div
+                <TiltCard
                   key={`${selectedCategory}-${i}`}
                   className="min-w-0 flex-[0_0_85%] pl-[24px] md:flex-[0_0_45%] lg:flex-[0_0_33.333%]"
                 >
@@ -404,15 +406,17 @@ export function PlanSection() {
                     )}
 
                     {/* Action Button */}
-                    <button
-                      className={`mb-[40px] w-full rounded-[20px] py-[16px] text-[18px] font-bold transition-all ${
-                        tier.highlight
-                          ? "bg-white text-[#050505] shadow-[0_10px_40px_rgba(255,255,255,0.1)] hover:bg-white/90"
-                          : "border border-white/5 bg-white/5 text-white/30 hover:bg-white/10"
-                      }`}
-                    >
-                      {tier.highlight ? "إشترك الآن" : "إشترك"}
-                    </button>
+                    <MagneticButton className="mb-[40px] w-full">
+                      <button
+                        className={`w-full rounded-[20px] py-[16px] text-[18px] font-bold transition-all ${
+                          tier.highlight
+                            ? "bg-white text-sales-bg shadow-[0_10px_40px_rgba(255,255,255,0.1)] hover:bg-white/90"
+                            : "border border-white/5 bg-white/5 text-white/30 hover:bg-white/10"
+                        }`}
+                      >
+                        {tier.highlight ? "إشترك الآن" : "إشترك"}
+                      </button>
+                    </MagneticButton>
 
                     {/* Features List */}
                     <ul className="flex-1 space-y-[20px]">
@@ -425,7 +429,7 @@ export function PlanSection() {
                             className={`flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-full border transition-colors ${
                               tier.highlight
                                 ? "border-white/10 bg-white/5 text-white"
-                                : "border-white/5 bg-white/[0.02] text-white/20"
+                                : "border-white/5 bg-white/2 text-white/20"
                             }`}
                           >
                             <Check className="h-[14px] w-[14px]" />
@@ -439,7 +443,7 @@ export function PlanSection() {
                       ))}
                     </ul>
                   </div>
-                </div>
+                </TiltCard>
               )
             })}
           </div>

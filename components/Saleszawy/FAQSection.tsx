@@ -58,7 +58,7 @@ export function FAQSection() {
         </div>
 
         {/* FAQ Table Container */}
-        <div ref={listRef} className="overflow-hidden rounded-xl border border-white/10 bg-white/[0.02] min-h-[400px]">
+        <div ref={listRef} className="overflow-hidden rounded-xl border border-white/10 bg-white/2 min-h-[400px]">
           <div>
             {faqs.map((faq, index) => (
               <div
@@ -73,8 +73,8 @@ export function FAQSection() {
                   className={cn(
                     "grid min-h-[80px] grid-cols-[60px_1fr_60px] transition-colors duration-300 md:min-h-[90px] md:grid-cols-[80px_1fr_80px]",
                     openId === faq.id
-                      ? "bg-white/[0.04]"
-                      : "hover:bg-white/[0.03]"
+                      ? "bg-white/4"
+                      : "hover:bg-white/3"
                   )}
                 >
                   {/* Right: Number Column */}

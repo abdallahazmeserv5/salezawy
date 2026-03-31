@@ -24,6 +24,7 @@ import { motion } from "framer-motion"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { useTilt } from "@/hooks/useTilt"
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger)
@@ -43,6 +44,7 @@ const FeatureCard = ({
   index?: number
 }) => {
   const cardRef = useRef<HTMLDivElement>(null)
+  const { rotateX, rotateY, handleMouseMove, handleMouseLeave } = useTilt()
 
   useGSAP(
     () => {
@@ -62,9 +64,12 @@ const FeatureCard = ({
   )
 
   return (
-    <div
+    <motion.div
       ref={cardRef}
-      className={`group relative flex flex-col justify-between overflow-hidden rounded-[32px] border border-white/5 bg-[#080808] p-4 transition-all duration-700 hover:border-blue-500/30 hover:shadow-[0_0_40px_rgba(59,130,246,0.1)] md:p-8 ${variant === "wide" ? "md:col-span-2" : "col-span-1"} ${className}`}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+      className={`group relative flex flex-col justify-between overflow-hidden rounded-[32px] border border-white/5 bg-[#080808] p-4 transition-all duration-700 hover:border-sales-purple/30 hover:shadow-[0_0_40px_rgba(192,132,252,0.1)] md:p-8 ${variant === "wide" ? "md:col-span-2" : "col-span-1"} ${className}`}
     >
       {/* Decorative inner glow */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
@@ -72,7 +77,7 @@ const FeatureCard = ({
 
       {/* Hover Gradient Overlay */}
       <div className="absolute inset-0 z-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.1),transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(192,132,252,0.1),transparent_70%)]" />
       </div>
 
       <div className="relative z-10 mb-8 flex flex-1 items-center justify-center">
@@ -82,7 +87,7 @@ const FeatureCard = ({
       <h3 className="relative z-10 text-center text-xl font-bold text-white/90 md:text-2xl">
         {title}
       </h3>
-    </div>
+    </motion.div>
   )
 }
 
@@ -92,20 +97,20 @@ export const SmartFeatures = () => {
   return (
     <section
       ref={containerRef}
-      className="relative overflow-hidden bg-[#000000] py-6"
+      className="relative overflow-hidden bg-sales-bg py-[60px] font-almarai md:py-[100px]"
     >
       {/* Dynamic Background Elements */}
-      <div className="absolute top-0 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-600/5 blur-[120px]" />
-      <div className="absolute right-0 bottom-0 h-[600px] w-[600px] translate-x-1/3 translate-y-1/3 rounded-full bg-purple-600/5 blur-[120px]" />
+      <div className="pointer-events-none absolute top-0 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sales-purple/10 blur-[120px]" />
+      <div className="pointer-events-none absolute right-0 bottom-0 h-[600px] w-[600px] translate-x-1/3 translate-y-1/3 rounded-full bg-sales-accent/10 blur-[120px]" />
 
       <Container className="relative z-10">
         {/* Section Header */}
-        <div className="mb-5 flex flex-col items-center text-center">
+        <div className="mb-[60px] flex flex-col items-center text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="mb-6 rounded-full border border-blue-500/20 bg-blue-500/5 px-4 py-1.5 text-sm font-semibold text-blue-400"
+            className="mb-6 rounded-full border border-sales-purple/20 bg-sales-purple/10 px-6 py-2 text-[14px] font-bold text-sales-purple shadow-[0_0_20px_rgba(192,132,252,0.15)]"
           >
             نظام ذكي متكامل
           </motion.div>
@@ -114,10 +119,10 @@ export const SmartFeatures = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="mb-6 text-2xl font-black tracking-tight text-white sm:text-3xl md:text-7xl"
+            className="mb-[24px] text-[32px] font-extrabold tracking-tight text-white md:text-[48px] lg:text-[64px]"
           >
             كيف يعمل{" "}
-            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-sales-purple to-sales-accent bg-clip-text text-transparent">
               النظام؟
             </span>
           </motion.h2>
@@ -126,7 +131,7 @@ export const SmartFeatures = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="max-w-2xl text-lg text-white/50 md:text-xl"
+            className="max-w-[700px] text-[16px] leading-[1.8] font-medium text-white/50 lg:text-[18px]"
           >
             مميزات متعددة في مكان واحد تمنحك التحكم الكامل في مبيعاتك من خلال
             أحدث تقنيات الأتمتة والذكاء الاصطناعي
@@ -145,9 +150,9 @@ export const SmartFeatures = () => {
             <div className="relative flex h-full w-full items-center justify-center p-4">
               {/* Central Glowing AI Node */}
               <div className="relative z-20 flex h-24 w-24 items-center justify-center">
-                <div className="absolute inset-0 animate-pulse rounded-full bg-blue-500/20 blur-2xl" />
-                <div className="flex h-20 w-20 items-center justify-center rounded-2xl border border-white/10 bg-[#121212] shadow-[0_0_30px_rgba(59,130,246,0.3)]">
-                  <Bot className="h-10 w-10 text-blue-400" />
+                <div className="absolute inset-0 animate-pulse rounded-full bg-sales-purple/20 blur-2xl" />
+                <div className="flex h-20 w-20 items-center justify-center rounded-2xl border border-white/10 bg-[#121212] shadow-[0_0_30px_rgba(192,132,252,0.3)]">
+                  <Bot className="h-10 w-10 text-sales-purple" />
                 </div>
               </div>
 
@@ -164,9 +169,9 @@ export const SmartFeatures = () => {
                     x2="100%"
                     y2="0%"
                   >
-                    <stop offset="0%" stopColor="#3b82f6" stopOpacity="0" />
-                    <stop offset="50%" stopColor="#3b82f6" stopOpacity="1" />
-                    <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
+                    <stop offset="0%" stopColor="#C084FC" stopOpacity="0" />
+                    <stop offset="50%" stopColor="#C084FC" stopOpacity="1" />
+                    <stop offset="100%" stopColor="#C084FC" stopOpacity="0" />
                   </linearGradient>
                 </defs>
                 <path
@@ -224,7 +229,7 @@ export const SmartFeatures = () => {
             <div className="flex w-full flex-col gap-4 rounded-2xl border border-white/5 bg-[#0C0C0C] p-6 shadow-2xl">
               <div className="flex items-center justify-between border-b border-white/5 pb-4">
                 <div className="h-3 w-20 rounded-full bg-white/10" />
-                <Database className="h-4 w-4 text-blue-400" />
+                <Database className="h-4 w-4 text-sales-purple" />
               </div>
               <div className="space-y-4">
                 <div className="space-y-2">
@@ -239,7 +244,7 @@ export const SmartFeatures = () => {
                   {["LLM", "Web", "HTTP", "Save"].map((tag) => (
                     <span
                       key={tag}
-                      className={`rounded-md px-2 py-1 text-[10px] font-bold ${tag === "Save" ? "bg-blue-500 text-white" : "border border-white/5 bg-white/5 text-white/40"}`}
+                      className={`rounded-md px-2 py-1 text-[10px] font-bold ${tag === "Save" ? "bg-sales-purple text-white" : "border border-white/5 bg-white/5 text-white/40"}`}
                     >
                       {tag}
                     </span>
@@ -259,13 +264,13 @@ export const SmartFeatures = () => {
               {[1, 2, 3].map((i) => (
                 <div
                   key={i}
-                  className={`flex items-center gap-4 rounded-xl border border-white/5 bg-[#0C0C0C] p-4 transition-all duration-300 hover:border-blue-500/20 ${i === 2 ? "relative -right-4 border-blue-500/20 bg-blue-500/5" : ""}`}
+                  className={`flex items-center gap-4 rounded-xl border border-white/5 bg-[#0C0C0C] p-4 transition-all duration-300 hover:border-sales-purple/20 ${i === 2 ? "relative -right-4 border-sales-purple/20 bg-sales-purple/5" : ""}`}
                 >
                   <div
-                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${i === 2 ? "bg-blue-500/20" : "bg-white/5"}`}
+                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${i === 2 ? "bg-sales-purple/20" : "bg-white/5"}`}
                   >
                     <Bell
-                      className={`h-5 w-5 ${i === 2 ? "text-blue-400" : "text-white/20"}`}
+                      className={`h-5 w-5 ${i === 2 ? "text-sales-purple" : "text-white/20"}`}
                     />
                   </div>
                   <div className="flex-1 space-y-2">
@@ -288,12 +293,12 @@ export const SmartFeatures = () => {
           >
             <div className="relative flex items-center justify-center">
               <div className="animate-spin-slow h-32 w-32 rounded-full border border-dashed border-white/10" />
-              <div className="absolute flex h-24 w-24 items-center justify-center rounded-full border border-blue-500/20 bg-blue-500/5 backdrop-blur-sm">
+              <div className="absolute flex h-24 w-24 items-center justify-center rounded-full border border-sales-purple/20 bg-sales-purple/5 backdrop-blur-sm">
                 <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-[#121212]">
-                  <UserPlus className="h-8 w-8 text-blue-400" />
+                  <UserPlus className="h-8 w-8 text-sales-purple" />
                 </div>
               </div>
-              <div className="absolute -top-2 -right-2 rounded-full border border-blue-500/30 bg-blue-500 px-3 py-1 text-[10px] font-bold text-white shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+              <div className="absolute -top-2 -right-2 rounded-full border border-sales-purple/30 bg-sales-purple px-3 py-1 text-[10px] font-bold text-white shadow-[0_0_15px_rgba(192,132,252,0.5)]">
                 AI Agent
               </div>
             </div>
@@ -317,9 +322,9 @@ export const SmartFeatures = () => {
                 </div>
 
                 <div className="relative">
-                  <div className="absolute inset-0 animate-ping rounded-full bg-blue-500/20" />
-                  <div className="relative flex h-20 w-20 items-center justify-center rounded-full border border-blue-500/30 bg-blue-500/10 shadow-[0_0_30px_rgba(59,130,246,0.2)]">
-                    <Command className="h-8 w-8 text-blue-400" />
+                  <div className="absolute inset-0 animate-ping rounded-full bg-sales-purple/20" />
+                  <div className="relative flex h-20 w-20 items-center justify-center rounded-full border border-sales-purple/30 bg-sales-purple/10 shadow-[0_0_30px_rgba(192,132,252,0.2)]">
+                    <Command className="h-8 w-8 text-sales-purple" />
                   </div>
                 </div>
               </div>
@@ -339,8 +344,8 @@ export const SmartFeatures = () => {
             <div className="w-full max-w-md overflow-hidden rounded-2xl border border-white/5 bg-[#0C0C0C] shadow-2xl">
               <div className="flex items-center justify-between border-b border-white/5 bg-white/5 px-6 py-4">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500/20">
-                    <Mail className="h-4 w-4 text-blue-400" />
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-sales-purple/20">
+                    <Mail className="h-4 w-4 text-sales-purple" />
                   </div>
                   <div className="h-2 w-24 rounded-full bg-white/20" />
                 </div>

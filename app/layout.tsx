@@ -6,6 +6,8 @@ import { DirectionProvider } from "@/components/ui/direction"
 import { cn } from "@/lib/utils"
 import { Navbar } from "@/components/Saleszawy/Navbar"
 import { Footer } from "@/components/layout/Footer"
+import { GlowFollower } from "@/components/Saleszawy/GlowFollower"
+import { ScrollProgress } from "@/components/Saleszawy/ScrollProgress"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 
@@ -48,6 +50,8 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <DirectionProvider dir="rtl">
+            <GlowFollower />
+            <ScrollProgress />
             <Navbar />
             {children}
             <Footer />
