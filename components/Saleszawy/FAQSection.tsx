@@ -44,8 +44,8 @@ export function FAQSection() {
   const { containerRef, headerRef, listRef, addToRefs } = useFAQAnimations()
 
   return (
-    <section ref={containerRef as React.RefObject<HTMLSelectElement | null>} className="bg-sales-bg py-16 font-almarai overflow-hidden">
-      <Container className="space-y-12 md:space-y-16">
+    <section ref={containerRef as React.RefObject<HTMLSelectElement | null>} className="bg-sales-bg py-6 font-almarai overflow-hidden md:py-12">
+      <Container className="space-y-8 md:space-y-16">
         {/* Header */}
         <div ref={headerRef} className="space-y-4 text-center min-h-[100px]">
           <h2 className="flex items-center justify-center gap-2 text-3xl font-extrabold text-white md:text-4xl">

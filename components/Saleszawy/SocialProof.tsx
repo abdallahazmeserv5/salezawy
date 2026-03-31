@@ -29,10 +29,10 @@ const LogoItem = ({ n, index }: { n: number, index: number }) => (
 
 export function SocialProof() {
   return (
-    <section className="bg-sales-bg py-24 font-almarai text-center overflow-hidden">
+    <section className="bg-sales-bg py-8 font-almarai text-center overflow-hidden md:py-12">
       <div>
         {/* Title Section */}
-        <Container className="mb-16">
+        <Container className="mb-8 md:mb-12">
           <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight leading-tight">
             <span className="text-sales-accent">+2,750</span> عميل يثقون بنا
           </h2>

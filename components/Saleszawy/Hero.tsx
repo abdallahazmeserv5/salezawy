@@ -114,7 +114,7 @@ export function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative flex min-h-[700px] w-full flex-col items-center justify-center overflow-hidden bg-sales-bg pt-[100px] font-almarai"
+      className="relative flex min-h-[600px] w-full flex-col items-center justify-center overflow-hidden bg-sales-bg pt-[40px] font-almarai md:pt-[60px]"
     >
       {/* Background Glows (Approximate from image) */}
       <div className="absolute inset-0 z-0">
@@ -161,7 +161,7 @@ export function Hero() {
             <div className="space-y-[16px]">
               <h1
                 ref={h1Ref}
-                className="text-[48px] leading-[1.1] font-extrabold text-white lg:text-[64px]"
+                className="text-[32px] leading-[1.1] font-extrabold text-white sm:text-[40px] md:text-[50px] lg:text-[64px]"
               >
                 <span className="bg-linear-to-l from-[#C084FC] via-[#38BDF8] to-[#2DD4BF] bg-clip-text text-transparent">
                   مساعد AI ذكي
@@ -171,7 +171,7 @@ export function Hero() {
 
               <h2
                 ref={h2Ref}
-                className="text-[32px] leading-tight font-bold text-white lg:text-[48px]"
+                className="text-[24px] leading-tight font-bold text-white sm:text-[28px] md:text-[36px] lg:text-[48px]"
               >
                 يتولي عميلك بشكل كامل
               </h2>

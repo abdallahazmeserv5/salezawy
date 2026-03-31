@@ -223,7 +223,7 @@ export function ExtendedFeatures() {
   }, { scope: containerRef })
 
   return (
-    <section ref={containerRef} className="bg-[#121115] py-16 font-almarai overflow-hidden relative">
+    <section ref={containerRef} className="relative overflow-hidden bg-[#121115] py-6 font-almarai md:py-10">
       {/* Decorative Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-sales-primary/20 blur-[120px] rounded-full" />
@@ -231,7 +231,7 @@ export function ExtendedFeatures() {
       </div>
 
       <Container className="relative z-10">
-        <div className="flex flex-col items-center mb-10">
+        <div className="flex flex-col items-center mb-6 md:mb-10">
           <h2 
             ref={headerRef}
             className="text-3xl md:text-4xl font-extrabold text-white text-center flex items-center gap-4"
