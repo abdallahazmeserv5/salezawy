@@ -243,8 +243,10 @@ export function ExtendedFeatures() {
         </div>
 
         <Carousel
+          dir="rtl"
           opts={{
-            align: "start",
+            align: "center",
+            direction: "rtl",
             loop: true,
             breakpoints: {
               '(min-width: 768px)': { active: false },

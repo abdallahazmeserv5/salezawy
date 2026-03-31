@@ -199,7 +199,8 @@ export function PlanSection() {
   const [emblaRef] = useEmblaCarousel(
     {
       loop: true,
-      align: "start",
+      align: "center",
+      direction: "rtl",
       slidesToScroll: 1,
       breakpoints: {
         "(min-width: 1024px)": { active: false },
@@ -343,7 +344,7 @@ export function PlanSection() {
               return (
                 <TiltCard
                   key={`${selectedCategory}-${i}`}
-                  className="min-w-0 flex-[0_0_85%] pl-[24px] md:flex-[0_0_45%] lg:flex-[0_0_33.333%]"
+                  className="min-w-0 flex-[0_0_90%] px-[12px] md:flex-[0_0_50%] md:px-[16px] lg:flex-[0_0_33.333%]"
                 >
                   <div
                     className={`relative flex h-full min-h-[660px] flex-col rounded-[32px] border p-[40px] transition-all duration-500 ${
